@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -eo pipefail
  
+echo "Setting Webhook URL: ${WEBHOOK_URL}"
 curl \
   --request POST \
-  --verbose \
   --url "https://api.telegram.org/bot${TELEGRAM_API_KEY}/setWebhook" \
   --header 'content-type: application/json' \
   --data "{\"url\": \"${WEBHOOK_URL}\"}"
