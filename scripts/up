@@ -16,5 +16,8 @@ function getNgrokUrl() {
     | jq -r '.tunnels | .[] | select(.proto == "https") | .public_url'
 }
 
+yarn build
 WEBHOOK_URL="$(getNgrokUrl)/dev"
 source "${SCRIPT_DIR}/telegram-set-webhook-url"
+
+yarn sls offline
