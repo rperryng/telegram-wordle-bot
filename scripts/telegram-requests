@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+# https://api.telegram.org/bot<token>/METHOD_NAME
+# https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/getMe
+# https://core.telegram.org/bots/api#setwebhook
+
+curl "https://api.telegram.org/bot${TELEGRAM_API_KEY}/getMe" \
