@@ -11,7 +11,7 @@ export const logger = createLogger({
     format.colorize(),
     format.printf((log) => `${log.timestamp} [${log.level}] - ${log.message}`),
   ),
-  defaultMeta: { service: 'your-service-name' },
+  defaultMeta: { service: 'telegram-wordle-bot' },
   transports: [
     new transports.Console({
       level: process.env.LOG_LEVEL || 'info',
