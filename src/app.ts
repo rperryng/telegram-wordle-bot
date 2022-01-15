@@ -9,13 +9,13 @@ import { bot } from "./telegram";
 const app = new Koa();
 app.use(koaLogger((str, args) => logger.info(str, args)));
 app.use(koaBodyParser());
-app.use(async function (context, next) {
+app.use(async (context, next) => {
   logger.info(
     `got request body: \n${JSON.stringify(context.request.body, null, 2)}`
   );
   return next();
 });
-app.use(async function (context, _next) {
+app.use(async (context) => {
   logger.info("forwarding request to bot");
   await bot.handleUpdate(context.request.body);
   context.status = 200;

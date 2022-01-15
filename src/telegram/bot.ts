@@ -1,26 +1,6 @@
 import { Telegraf, Context } from "telegraf";
-import { logger } from "./logger";
-import { z } from "zod";
-
-const messageSchema = z.object({
-  message_id: z.number(),
-  from: z.object({
-    id: z.number(),
-    is_bot: z.boolean(),
-    first_name: z.string(),
-    last_name: z.string(),
-    username: z.string(),
-    language_code: z.string(),
-  }),
-  chat: z.object({
-    id: z.number(),
-    first_name: z.string(),
-    last_name: z.string(),
-    username: z.string(),
-  }),
-  date: z.number(),
-  text: z.string(),
-});
+import { logger } from "../logger";
+import { messageSchema } from "./types";
 
 const telegram_bot_token = process.env.TELEGRAM_API_KEY;
 if (!telegram_bot_token) {
