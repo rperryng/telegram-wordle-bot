@@ -1,4 +1,4 @@
-import { Context, Next } from "koa";
+import { Context, Next } from 'koa';
 
 export async function notFound(context: Context, next: Next) {
   await next();
@@ -7,8 +7,8 @@ export async function notFound(context: Context, next: Next) {
     return;
   }
 
-  context.type = "json";
+  context.type = 'json';
   context.body = {
-    message: "Page Not Found",
+    message: 'Page Not Found',
   };
 }

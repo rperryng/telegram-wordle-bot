@@ -10,6 +10,7 @@ module.exports = {
   ],
   rules: {
     "object-curly-spacing": ["error", "always"],
-    "comma-dangle": ["error", "always-multiline"]
+    "comma-dangle": ["error", "always-multiline"],
+    "quotes": [  "error", "single" ],
   }
 };
