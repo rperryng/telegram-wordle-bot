@@ -7,6 +7,10 @@ frameworkVersion: '2'
 custom:
   tableName: 'users-table-${self:provider.stage}'
 
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs14.x
