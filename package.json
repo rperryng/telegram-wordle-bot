@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "koa": "^2.13.4",
-    "serverless-http": "^2.7.0"
+    "serverless-http": "^2.7.0",
+    "winston": "^3.4.0"
   },
   "devDependencies": {
     "@tsconfig/node14": "^1.0.1",

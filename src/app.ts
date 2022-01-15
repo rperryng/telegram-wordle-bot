@@ -1,6 +1,8 @@
-import Koa, {Context} from 'koa';
+import Koa, {Context, Next} from 'koa';
 import serverless from 'serverless-http';
+import { logger } from './logger';
 
+logger.info('hello world');
 const app = new Koa();
 
 // 404
@@ -24,4 +26,4 @@ app.use(async (context: Context) => {
   }
 });
 
-module.exports.handler = serverless(app);
+export const handler = serverless(app);
