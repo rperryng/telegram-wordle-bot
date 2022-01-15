@@ -10,6 +10,7 @@ custom:
 provider:
   name: aws
   runtime: nodejs14.x
+  region: ca-central-1
   lambdaHashingVersion: '20201221'
   stage: dev
   iam:
