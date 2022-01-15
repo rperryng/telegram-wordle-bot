@@ -7,6 +7,12 @@
   "author": "Ryan Perry-Nguyen <ryanperrynguyen@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "ts-node src/app.ts"
+  },
+  "devDependencies": {
+    "@tsconfig/node14": "^1.0.1",
+    "@types/node14": "^14.0.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
   }
 }
