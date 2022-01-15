@@ -1,0 +1,12 @@
+{
+  "name": "telegram-wordle-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for saving, sharing, and comparing wordle scores",
+  "main": "",
+  "repository": "git@github.com:rperryng/telegram-wordle-bot.git",
+  "author": "Ryan Perry-Nguyen <ryanperrynguyen@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/app.js"
+  }
+}
