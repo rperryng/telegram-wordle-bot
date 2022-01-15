@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+# For now, just run `yarn sls offline` in another terminal
+
+SCRIPT_DIR="$(dirname "$0")"
+
+ngrok http 3000 > /dev/null &
+
+NGROK_HTTPS_URL=$( \
+  curl --silent http://127.0.0.1:4040/api/tunnels \ | jq '.tunnels[0].public_url'
+)
+WEBHOOK_URL="${NGROK_HTTPS_URL}/dev"
+
+source "${SCRIPT_DIR}/telegram-set-webhook-url"
