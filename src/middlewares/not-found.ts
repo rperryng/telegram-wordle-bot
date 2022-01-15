@@ -1,21 +1,14 @@
-import { Context } from "koa";
+import { Context, Next } from "koa";
 
-export async function notFound(context: Context) {
-  context.status = 404;
+export async function notFound(context: Context, next: Next) {
+  await next();
 
-  switch (context.accepts("html", "json")) {
-    case "html":
-      context.type = "html";
-      context.body = "<p>Page Not Found</p>";
-      break;
-    case "json":
-      context.type = "json";
-      context.body = {
-        message: "Page Not Found",
-      };
-      break;
-    default:
-      context.type = "text";
-      context.body = "Page Not Found";
+  if (context.status) {
+    return;
   }
+
+  context.type = "json";
+  context.body = {
+    message: "Page Not Found",
+  };
 }
