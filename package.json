@@ -20,7 +20,8 @@
     "koa-logger": "^3.2.1",
     "serverless-http": "^2.7.0",
     "telegraf": "^4.6.0",
-    "winston": "^3.4.0"
+    "winston": "^3.4.0",
+    "zod": "^3.11.6"
   },
   "devDependencies": {
     "@tsconfig/node14": "^1.0.1",
