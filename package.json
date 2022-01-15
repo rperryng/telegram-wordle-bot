@@ -7,7 +7,9 @@
   "author": "Ryan Perry-Nguyen <ryanperrynguyen@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/app.ts"
+    "start": "ts-node src/app.ts",
+    "build": "yarn tsc",
+    "clean": "rm -rf dist"
   },
   "devDependencies": {
     "@tsconfig/node14": "^1.0.1",
