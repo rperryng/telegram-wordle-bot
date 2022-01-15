@@ -1,9 +1,9 @@
-import Koa, {Context, Next} from 'koa';
-import serverless from 'serverless-http';
-import { logger } from './logger';
-import { notFound } from './middlewares/not-found';
+import Koa, { Context, Next } from "koa";
+import serverless from "serverless-http";
+import { logger } from "./logger";
+import { notFound } from "./middlewares/not-found";
 
-logger.info('hello world');
+logger.info("hello world");
 const app = new Koa();
 
 app.use(notFound);
