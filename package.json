@@ -1,8 +1,9 @@
 {
   "name": "telegram-wordle-bot",
+  "type": "module",
   "version": "1.0.0",
   "description": "Telegram bot for saving, sharing, and comparing wordle scores",
-  "main": "",
+  "main": "dist/index.js",
   "repository": "git@github.com:rperryng/telegram-wordle-bot.git",
   "author": "Ryan Perry-Nguyen <ryanperrynguyen@gmail.com>",
   "license": "MIT",
