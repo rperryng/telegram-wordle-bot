@@ -8,7 +8,8 @@ export const logger = createLogger({
     }),
     format.errors({ stack: true }),
     format.splat(),
-    format.json()
+    format.colorize(),
+    format.printf((log) => `${log.timestamp} [${log.level}] - ${log.message}`),
   ),
   defaultMeta: { service: 'your-service-name' },
   transports: [
