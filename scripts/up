@@ -16,7 +16,7 @@ function getNgrokUrl() {
 }
 
 rm -rf "${SCRIPT_DIR}/../dist"
-yarn build
+yarn build:local
 WEBHOOK_URL="$(getNgrokUrl)/dev"
 source "${SCRIPT_DIR}/telegram-set-webhook-url"
 

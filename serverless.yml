@@ -29,13 +29,15 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource:
-            - Fn::GetAtt: [ UsersTable, Arn ]
+            - Fn::GetAtt: [ SubmissionsTable, Arn ]
   environment:
-    USERS_TABLE: ${self:custom.tableName}
+    AWS_SUBMISSIONS_TABLE: ${self:custom.submissionsTable}
 
 functions:
   api:
     handler: dist/app.handler
+    environment:
+      TELEGRAM_BOT_KEY: ${ssm:/telegram_bot_key, env:TELEGRAM_BOT_KEY}
     events:
       - http:
           path: /
