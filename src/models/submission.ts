@@ -33,7 +33,7 @@ export async function put(submission: Submission): Promise<void> {
 
 export async function get(
   userId: number,
-  wordleNumber: number
+  wordleNumber: number,
 ): Promise<Submission | null> {
   const params: DocumentClient.GetItemInput = {
     TableName: config.submissionsTable,

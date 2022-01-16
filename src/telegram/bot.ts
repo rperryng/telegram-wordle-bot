@@ -36,7 +36,7 @@ bot.on('text', (context: Context) => {
 
 export async function handleFetch(
   context: Context,
-  message: Message
+  message: Message,
 ): Promise<void> {
   const userId = message.from.id;
   const { wordleNumber } = config;
@@ -45,7 +45,7 @@ export async function handleFetch(
 
   if (!submission) {
     context.reply(
-      `No submission found for Wordle #${wordleNumber} ${message.chat.username}`
+      `No submission found for Wordle #${wordleNumber} ${message.chat.username}`,
     );
   } else {
     context.reply(`Worldle #${submission.wordleNumber}
@@ -58,7 +58,7 @@ ${submission.guesses}`);
 export async function handleSubmission(
   context: Context,
   message: Message,
-  submission: Submission
+  submission: Submission,
 ): Promise<void> {
   logger.info('saving submission');
   const result = await models.submission.put({

@@ -14,7 +14,7 @@ export const logger = createLogger({
     format.errors({ stack: true }),
     format.splat(),
     format.colorize(),
-    format.printf((log) => `${log.timestamp} [${log.level}] - ${log.message}`)
+    format.printf((log) => `${log.timestamp} [${log.level}] - ${log.message}`),
   ),
   defaultMeta: { service: 'telegram-wordle-bot' },
   transports: [

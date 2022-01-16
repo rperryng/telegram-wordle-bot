@@ -13,6 +13,15 @@ module.exports = {
     'comma-dangle': ['error', 'always-multiline'],
     'no-console': ['error'],
     'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
     quotes: ['error', 'single'],
   },
 };
