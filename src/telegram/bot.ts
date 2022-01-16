@@ -4,8 +4,7 @@ import { messageSchema } from './types';
 import { z } from 'zod';
 
 const WORDLE_SHARE_PATTERN =
-  /Wordle\s(?<wordleNumber>\d+)\s(?<numGuesses>\d)\/6\s+(?<guesses>(?:[\u{1F7E9}\u{2B1B}\u{1F7E8}]{5}\s?)*)/u;
-/Wordle\s(?<wordleNumber>\d+)\s(?<numGuesses>\d)\/6\s+/u;
+  /Wordle\s(?<wordleNumber>\d+)\s(?<numGuesses>\d)\/6\s+(?<guesses>(.+))/msu;
 
 const submissionSchema = z.object({
   wordleNumber: z.number(),
@@ -28,14 +27,13 @@ bot.on('text', (context: Context) => {
 
   const match = message.text.match(WORDLE_SHARE_PATTERN);
 
-  logger.info(`match: ${match}`);
-
   if (!match || !match.groups) {
     logger.info('board not valid');
     context.reply('this board is not valid');
     return;
   }
 
+  logger.info(`guessesRaw: ${match.groups.guesses}`);
   logger.info(`submission parsed: ${JSON.stringify(match.groups, null, 2)}`);
 
   const submission = submissionSchema.parse({
