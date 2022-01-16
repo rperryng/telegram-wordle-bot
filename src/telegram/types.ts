@@ -19,3 +19,12 @@ export const messageSchema = z.object({
   date: z.number(),
   text: z.string(),
 });
+export type Message = z.infer<typeof messageSchema>;
+
+const stringToNumber = z.preprocess((val) => parseInt(String(val)), z.number());
+export const submissionSchema = z.object({
+  wordleNumber: stringToNumber,
+  numGuesses: stringToNumber,
+  guesses: z.string(),
+});
+export type Submission = z.infer<typeof submissionSchema>;

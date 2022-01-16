@@ -1,7 +1,12 @@
 import { createLogger, format, transports } from 'winston';
+import { env } from './env';
+
+const config = {
+  logLevel: env('LOG_LEVEL', 'info'),
+};
 
 export const logger = createLogger({
-  level: process.env.LOG_LEVEL || 'info',
+  level: config.logLevel,
   format: format.combine(
     format.timestamp({
       format: 'isoDateTime',
@@ -14,7 +19,7 @@ export const logger = createLogger({
   defaultMeta: { service: 'telegram-wordle-bot' },
   transports: [
     new transports.Console({
-      level: process.env.LOG_LEVEL || 'info',
+      level: config.logLevel,
     }),
   ],
 });
