@@ -11,13 +11,19 @@ const config = {
 
 export const bot = new Telegraf(config.botToken);
 
+bot.use((context: Context, next) => {
+  logger.info(`bot received: ${JSON.stringify(context.message, null, 2)}`);
+  return next();
+});
+
 bot.start((context) => context.reply('Hello'));
 
-bot.on('inline_query', (_context: Context) => {
-  logger.info('received inline query');
+bot.command('leaderboard', (context: Context) => {
+  logger.info('leaderboard command received');
 });
 
 bot.on('text', (context: Context) => {
+  logger.info('on [text]');
   const message = messageSchema.parse(context.message);
 
   if (message.text === 'fetch') {
