@@ -24,7 +24,7 @@ bot.on('text', (context: Context) => {
   }
 
   const match = message.text.match(WORDLE_SHARE_PATTERN);
-  if (!match || !match.groups) {
+  if (!match?.groups) {
     logger.info('board not valid');
     context.reply('this board is not valid');
     return;
