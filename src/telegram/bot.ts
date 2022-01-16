@@ -2,9 +2,9 @@ import { Telegraf, Context } from 'telegraf';
 import { logger } from '../logger';
 import { messageSchema } from './types';
 import { env } from '../env';
-import { handle as handleSubmission } from './submission';
-import { handle as handleFetch } from './fetch';
-import { handle as handleToday } from './today';
+import { handler as handleSubmission } from './submission';
+import { handler as handleFetch } from './fetch';
+import { handler as handleToday } from './today';
 
 const config = {
   botToken: env('TELEGRAM_BOT_KEY'),
@@ -18,13 +18,10 @@ bot.use((context: Context, next) => {
 });
 
 bot.start((context) => context.reply('Hello'));
-
 bot.command('today', handleToday);
-
 bot.command('leaderboard', (context: Context) => {
   logger.info('[leaderboard] command received');
 });
-
 bot.on('text', (context: Context) => {
   logger.info('on [text]');
   const message = messageSchema.parse(context.message);

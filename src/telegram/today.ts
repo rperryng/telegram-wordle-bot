@@ -1,4 +1,4 @@
-import { Context } from 'koa';
+import { Context } from 'telegraf';
 import { logger } from '../logger';
 
 export async function handler(context: Context) {

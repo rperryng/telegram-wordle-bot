@@ -7,7 +7,7 @@ const config = {
   wordleNumber: parseInt(env('WORDLE_NUMBER', '210')),
 };
 
-export async function handle(
+export async function handler(
   context: Context,
   message: Message,
 ): Promise<void> {
