@@ -4,6 +4,7 @@ import { messageSchema } from './types';
 import { env } from '../env';
 import { handle as handleSubmission } from './submission';
 import { handle as handleFetch } from './fetch';
+import { handle as handleToday } from './today';
 
 const config = {
   botToken: env('TELEGRAM_BOT_KEY'),
@@ -18,8 +19,10 @@ bot.use((context: Context, next) => {
 
 bot.start((context) => context.reply('Hello'));
 
+bot.command('today', handleToday);
+
 bot.command('leaderboard', (context: Context) => {
-  logger.info('leaderboard command received');
+  logger.info('[leaderboard] command received');
 });
 
 bot.on('text', (context: Context) => {

@@ -4,13 +4,12 @@ import koaBodyParser from 'koa-bodyparser';
 import serverless from 'serverless-http';
 import { logger } from './logger';
 import { notFound } from './middlewares/not-found';
-import { logBody } from './middlewares/log-body';
 import { bot } from './telegram';
 
 const app = new Koa();
 app.use(koaLogger((str, args) => logger.info(str, args)));
 app.use(koaBodyParser());
-app.use(logBody);
+// app.use(logBody);
 app.use(async (context) => {
   await bot.handleUpdate(context.request.body);
   context.status = 200;
