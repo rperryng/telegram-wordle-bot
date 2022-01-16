@@ -5,7 +5,7 @@ service: telegram-wordle-bot
 frameworkVersion: '2'
 
 custom:
-  tableName: 'users-table-${self:provider.stage}'
+  submissionsTable: 'submissions-table-${self:provider.stage}'
 
 plugins:
   - serverless-dynamodb-local
@@ -46,16 +46,20 @@ functions:
 
 resources:
   Resources:
-    UsersTable:
+    SubmissionsTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
           - AttributeName: userId
-            AttributeType: S
+            AttributeType: N
+          - AttributeName: wordleNumber
+            AttributeType: N
         KeySchema:
           - AttributeName: userId
             KeyType: HASH
+          - AttributeName: wordleNumber
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:custom.tableName}
+        TableName: ${self:custom.submissionsTable}

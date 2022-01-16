@@ -3,9 +3,11 @@ import { logger } from '../logger';
 import { messageSchema, Message, submissionSchema, Submission } from './types';
 import { z } from 'zod';
 import { env } from '../env';
+import * as models from '../models';
 
 const config = {
-  botToken: env('TELEGRAM_API_KEY'),
+  botToken: env('TELEGRAM_BOT_KEY'),
+  wordleNumber: parseInt(env('WORDLE_NUMBER', '210')),
 };
 
 const WORDLE_SHARE_PATTERN =
