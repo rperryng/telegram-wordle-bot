@@ -6,6 +6,7 @@ frameworkVersion: '2'
 
 custom:
   submissionsTable: 'submissions-table-${self:provider.stage}'
+  userChannelsTable: 'user-channels-table-${self:provider.stage}'
 
 plugins:
   - serverless-dynamodb-local
@@ -32,6 +33,7 @@ provider:
             - Fn::GetAtt: [ SubmissionsTable, Arn ]
   environment:
     AWS_SUBMISSIONS_TABLE: ${self:custom.submissionsTable}
+    AWS_USER_CHANNELS_TABLE: ${self:custom.userChannelsTable}
 
 functions:
   api:
@@ -65,3 +67,16 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:custom.submissionsTable}
+
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: N
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.userChannelsTable}

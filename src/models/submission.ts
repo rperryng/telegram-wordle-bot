@@ -43,9 +43,7 @@ export async function get(
     },
   };
 
-  logger.info(`fetching item: ${JSON.stringify(params, null, 2)}`);
   const { Item } = await client.get(params).promise();
-  logger.info(`got item: ${JSON.stringify(Item, null, 2)}`);
 
   if (Item) {
     return submissionSchema.parse(Item);
