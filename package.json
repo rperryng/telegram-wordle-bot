@@ -18,7 +18,7 @@
     "lint": "yarn eslint --fix ."
   },
   "dependencies": {
-    "aws-sdk": "^2.1058.0",
+    "@aws-sdk/client-dynamodb": "^3.47.0",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-logger": "^3.2.1",
