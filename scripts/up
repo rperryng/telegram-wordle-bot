@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-# For now, just run `yarn sls offline` in another terminal
 SCRIPT_DIR="$(dirname "$0")"
 
 function getNgrokUrl() {
