@@ -1,16 +1,17 @@
 module.exports = {
   root: true,
-  parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
   extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:import/recommended",
-    "plugin:import/typescript",
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
   ],
   rules: {
-    "object-curly-spacing": ["error", "always"],
-    "comma-dangle": ["error", "always-multiline"],
-    "quotes": [  "error", "single" ],
-  }
+    'object-curly-spacing': ['error', 'always'],
+    'comma-dangle': ['error', 'always-multiline'],
+    'no-console': ['error'],
+    quotes: ['error', 'single'],
+  },
 };

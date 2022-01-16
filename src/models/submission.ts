@@ -27,7 +27,7 @@ export async function put(submission: Submission): Promise<void> {
   try {
     await client.put(params).promise();
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 }
 
