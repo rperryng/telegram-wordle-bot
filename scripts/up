@@ -16,6 +16,7 @@ function getNgrokUrl() {
     | jq -r '.tunnels | .[] | select(.proto == "https") | .public_url'
 }
 
+rm -rf "${SCRIPT_DIR}/../dist"
 yarn build
 WEBHOOK_URL="$(getNgrokUrl)/dev"
 source "${SCRIPT_DIR}/telegram-set-webhook-url"
