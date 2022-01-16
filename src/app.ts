@@ -1,4 +1,4 @@
-import Koa, { Context, Next } from 'koa';
+import Koa from 'koa';
 import koaLogger from 'koa-logger';
 import koaBodyParser from 'koa-bodyparser';
 import serverless from 'serverless-http';

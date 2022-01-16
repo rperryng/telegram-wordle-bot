@@ -1,7 +1,6 @@
 import { Telegraf, Context } from 'telegraf';
 import { logger } from '../logger';
 import { messageSchema, Message, submissionSchema, Submission } from './types';
-import { z } from 'zod';
 import { env } from '../env';
 import * as models from '../models';
 

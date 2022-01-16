@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'unused-imports'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -12,6 +12,7 @@ module.exports = {
     'object-curly-spacing': ['error', 'always'],
     'comma-dangle': ['error', 'always-multiline'],
     'no-console': ['error'],
+    'unused-imports/no-unused-imports': 'error',
     quotes: ['error', 'single'],
   },
 };
