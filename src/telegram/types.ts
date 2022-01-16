@@ -1,15 +1,17 @@
 import { z } from 'zod';
 
+export const fromSchema = z.object({
+  id: z.number(),
+  is_bot: z.boolean(),
+  first_name: z.string(),
+  last_name: z.string(),
+  username: z.string(),
+  language_code: z.string(),
+});
+
 export const messageSchema = z.object({
   message_id: z.number(),
-  from: z.object({
-    id: z.number(),
-    is_bot: z.boolean(),
-    first_name: z.string(),
-    last_name: z.string(),
-    username: z.string(),
-    language_code: z.string(),
-  }),
+  from: fromSchema,
   chat: z.object({
     id: z.number(),
     first_name: z.string(),
@@ -28,3 +30,11 @@ export const submissionSchema = z.object({
   guesses: z.string(),
 });
 export type Submission = z.infer<typeof submissionSchema>;
+
+const ChatTypeEnum = z.enum(['sender', 'group', 'supergruop', 'channel']);
+type ChatType = z.infer<typeof ChatTypeEnum>;
+export const inlineQuerySchema = z.object({
+  id: z.number(),
+  from: fromSchema,
+  chat_type: ChatTypeEnum,
+});
