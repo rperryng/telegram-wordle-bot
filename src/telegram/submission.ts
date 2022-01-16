@@ -4,9 +4,9 @@ import * as models from '../models';
 import { Context } from 'telegraf';
 
 const WORDLE_SHARE_PATTERN =
-  /Wordle\s(?<wordleNumber>\d+)\s(?<numGuesses>\d)\/6\s+(?<guesses>(.+))/msu;
+  /Wordle\s(?<wordleNumber>\d+)\s(?<numGuesses>\d)\/6\s+(?<guesses>(?:(?:🟩|🟨|⬜️|⬛️){5}\s?){1,6})$/u;
 
-export async function handle(
+export async function handler(
   context: Context,
   message: Message,
 ): Promise<void> {
