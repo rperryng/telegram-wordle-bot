@@ -78,3 +78,19 @@ export async function batchGet(
     return [];
   }
 }
+
+export async function deleteItem(item: {
+  userId: number;
+  wordleNumber: number;
+}): Promise<void> {
+  const params: DocumentClient.DeleteItemInput = {
+    TableName: config.submissionsTable,
+    Key: item,
+  };
+
+  try {
+    await client.delete(params).promise();
+  } catch (error) {
+    logger.error(error);
+  }
+}

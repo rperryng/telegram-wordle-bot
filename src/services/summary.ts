@@ -42,23 +42,13 @@ export async function getSummary(chatId: number): Promise<Summary> {
     };
   }
 
-  const userIdsSubmissions = submissions.map((s) => s.userId).sort();
-  userIdsForChat.sort();
-  const allSubmissionsPresent = userIdsSubmissions.every(
-    (submissionUserId, index) => submissionUserId === userIdsForChat[index],
-  );
-
   let modifiedSubmissions = submissions.map((s) => ({
     ...s,
     numGuesses: s.guesses.split('\n').length,
   }));
   modifiedSubmissions = sortBy(modifiedSubmissions, (s) => s.numGuesses);
 
-  logger.info(
-    `${chatTitle} has ${userIdsForChat.length} users and ${submissions.length} submissions`,
-  );
-
-  if (allSubmissionsPresent) {
+  if (submissions.length === userIdsForChat.length) {
     return {
       type: 'full',
       message: fullSummary(modifiedSubmissions),
@@ -94,8 +84,6 @@ function discreetSummary(submissions: Submission[]): string {
   const wordleNumber = submissions[0].wordleNumber;
 
   return `
-All submissions received.
-
 Wordle ${wordleNumber}
 
 ${submissions

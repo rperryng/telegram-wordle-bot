@@ -8,7 +8,7 @@ export const fromSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
   username: z.string(),
-  language_code: z.string(),
+  language_code: z.optional(z.string()),
 });
 
 export const privateMessageSchema = z.object({
@@ -16,9 +16,6 @@ export const privateMessageSchema = z.object({
   from: fromSchema,
   chat: z.object({
     id: z.number(),
-    first_name: z.string(),
-    last_name: z.string(),
-    username: z.string(),
     type: z.literal('private'),
   }),
   date: z.number(),

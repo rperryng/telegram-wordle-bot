@@ -41,9 +41,11 @@ ${submission.guesses}`);
       const summary = await getSummary(chatId);
       switch (summary.type) {
         case 'full':
-        case 'discreet':
-          await bot.telegram.sendMessage(chatId, summary.message);
+        case 'discreet': {
+          const msg = `All submissions received!\n\n${summary.message}`;
+          await bot.telegram.sendMessage(chatId, msg);
           break;
+        }
         case 'needs_setup':
         // do nothing
       }
