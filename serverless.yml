@@ -40,6 +40,7 @@ functions:
     handler: dist/app.handler
     environment:
       TELEGRAM_BOT_KEY: ${ssm:/telegram_bot_key, env:TELEGRAM_BOT_KEY}
+      BASE_URL: ${ssm:/base_path_serverless_telegram_wordle_bot, env:WEBHOOK_URL}
     events:
       - http:
           path: /
@@ -62,6 +63,8 @@ resources:
             AttributeType: N
           - AttributeName: wordleNumber
             AttributeType: N
+          - AttributeName: UserName
+            AttributeType: S
         KeySchema:
           - AttributeName: userId
             KeyType: HASH

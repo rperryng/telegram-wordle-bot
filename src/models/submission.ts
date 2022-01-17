@@ -10,6 +10,7 @@ const config = {
 
 const submissionSchema = z.object({
   userId: z.number(),
+  userName: z.string(),
   wordleNumber: z.number(),
   guesses: z.string(),
 });
@@ -68,9 +69,7 @@ export async function batchGet(
       },
     },
   };
-  logger.info('batchGetComplete');
 
   const response = await client.batchGet(params).promise();
-  logger.info(`batchGet response: ${JSON.stringify(response, null, 2)}`);
   return [];
 }
