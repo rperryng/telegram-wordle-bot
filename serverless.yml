@@ -6,7 +6,7 @@ frameworkVersion: '2'
 
 custom:
   submissionsTable: 'submissions-table-${self:provider.stage}'
-  userChannelsTable: 'user-channels-table-${self:provider.stage}'
+  groupsTable: 'groups-table-${self:provider.stage}'
 
 plugins:
   - serverless-dynamodb-local
@@ -33,7 +33,7 @@ provider:
             - Fn::GetAtt: [ SubmissionsTable, Arn ]
   environment:
     AWS_SUBMISSIONS_TABLE: ${self:custom.submissionsTable}
-    AWS_USER_CHANNELS_TABLE: ${self:custom.userChannelsTable}
+    AWS_GROUPS_TABLE: ${self:custom.groupsTable}
 
 functions:
   api:
@@ -53,6 +53,10 @@ resources:
     SubmissionsTable:
       Type: AWS::DynamoDB::Table
       Properties:
+        TableName: ${self:custom.submissionsTable}
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
         AttributeDefinitions:
           - AttributeName: userId
             AttributeType: N
@@ -63,21 +67,33 @@ resources:
             KeyType: HASH
           - AttributeName: wordleNumber
             KeyType: RANGE
+
+    GroupsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.groupsTable}
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:custom.submissionsTable}
-
-    UserChannelsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
         AttributeDefinitions:
+          - AttributeName: groupId
+            AttributeType: N
           - AttributeName: userId
             AttributeType: N
         KeySchema:
-          - AttributeName: userId
+          - AttributeName: groupId
             KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        TableName: ${self:custom.userChannelsTable}
+          - AttributeName: userId
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: UserIdIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: groupId
+                KeyType: RANGE
+            Projection:
+              ProjectionType: 'ALL'
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
