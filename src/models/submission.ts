@@ -52,3 +52,25 @@ export async function get(
     return null;
   }
 }
+
+export async function batchGet(
+  userIds: number[],
+  wordleNumber: number,
+): Promise<Submission[]> {
+  logger.info('batchGet');
+  const params: DocumentClient.BatchGetItemInput = {
+    RequestItems: {
+      [config.submissionsTable]: {
+        Keys: userIds.map((userId) => ({
+          userId,
+          wordleNumber,
+        })),
+      },
+    },
+  };
+  logger.info('batchGetComplete');
+
+  const response = await client.batchGet(params).promise();
+  logger.info(`batchGet response: ${JSON.stringify(response, null, 2)}`);
+  return [];
+}

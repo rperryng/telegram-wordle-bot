@@ -3,7 +3,7 @@ import * as models from '../models';
 import { Context } from 'telegraf';
 import { env } from '../env';
 
-const config = {
+export const config = {
   wordleNumber: parseInt(env('WORDLE_NUMBER', '210')),
 };
 

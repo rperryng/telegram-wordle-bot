@@ -1,8 +1,22 @@
 import { Context } from 'telegraf';
 import { logger } from '../logger';
+import * as models from '../models';
+import { commandSchema } from './types';
+import { config } from './fetch';
 
 export async function handler(context: Context) {
   logger.info('[today] command received');
+  const message = commandSchema.parse(context.message);
+  const userIds = await models.groupUsers.getUserIds(message.chat.id);
 
-  logger.info(`message: ${JSON.stringify(context.message, null, 2)}`);
+  if (!userIds) {
+    return context.reply(
+      `No registered users found for chat ${message.from.username}`,
+    );
+  }
+
+  const submissions = await models.submission.batchGet(
+    userIds,
+    config.wordleNumber,
+  );
 }
