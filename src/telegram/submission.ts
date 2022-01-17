@@ -47,18 +47,7 @@ ${submission.guesses}`);
       switch (summary.type) {
         case 'full': {
           const msg = `All submissions received!\n\n${summary.message}`;
-
-          try {
-            await bot.telegram.sendMessage(chatId, msg);
-          } catch (e) {
-            if (e instanceof Error) {
-              if (e.message.includes('Forbidden')) {
-                logger.error(`Bot was kicked from chat ${chatId}`);
-              } else {
-                throw e;
-              }
-            }
-          }
+          await trySendMessage(chatId, msg);
           break;
         }
         case 'discreet':
@@ -67,4 +56,18 @@ ${submission.guesses}`);
       }
     }),
   );
+}
+
+async function trySendMessage(chatId: number, msg: string) {
+  try {
+    await bot.telegram.sendMessage(chatId, msg);
+  } catch (e) {
+    if (e instanceof Error) {
+      if (e.message.includes('Forbidden')) {
+        logger.error(`Bot was kicked from chat ${chatId}`);
+      } else {
+        throw e;
+      }
+    }
+  }
 }
