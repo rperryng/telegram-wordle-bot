@@ -1,4 +1,4 @@
-import { Message } from './types';
+import { PrivateMessage } from './types';
 import * as models from '../models';
 import { Context } from 'telegraf';
 import { env } from '../env';
@@ -9,7 +9,7 @@ export const config = {
 
 export async function handler(
   context: Context,
-  message: Message,
+  message: PrivateMessage,
 ): Promise<void> {
   const userId = message.from.id;
   const { wordleNumber } = config;

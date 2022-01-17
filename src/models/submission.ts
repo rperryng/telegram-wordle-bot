@@ -70,6 +70,12 @@ export async function batchGet(
     },
   };
 
-  const response = await client.batchGet(params).promise();
-  return [];
+  const { Responses: result } = await client.batchGet(params).promise();
+
+  if (result) {
+    const items = result[config.submissionsTable];
+    return items.map((item) => submissionSchema.parse(item));
+  } else {
+    return [];
+  }
 }

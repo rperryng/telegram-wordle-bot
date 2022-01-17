@@ -1,6 +1,6 @@
 import { Telegraf, Context } from 'telegraf';
 import { logger } from '../logger';
-import { messageSchema } from './types';
+import { privateMessageSchema } from './types';
 import { env } from '../env';
 import { handler as handleSubmission } from './submission';
 import { handler as handleFetch } from './fetch';
@@ -24,7 +24,7 @@ bot.command('leaderboard', (context: Context) => {
 });
 bot.on('text', (context: Context) => {
   logger.info('on [text]');
-  const message = messageSchema.parse(context.message);
+  const message = privateMessageSchema.parse(context.message);
 
   if (message.text === 'fetch') {
     return handleFetch(context, message);

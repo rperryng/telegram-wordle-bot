@@ -1,5 +1,5 @@
 import { logger } from '../logger';
-import { Message, submissionSchema } from './types';
+import { PrivateMessage, submissionSchema } from './types';
 import * as models from '../models';
 import { Context } from 'telegraf';
 
@@ -8,7 +8,7 @@ const WORDLE_SHARE_PATTERN =
 
 export async function handler(
   context: Context,
-  message: Message,
+  message: PrivateMessage,
 ): Promise<void> {
   // remove unicode variations
   const sanitizedText = message.text.replace(/\u{FE0F}/gu, '');

@@ -59,9 +59,6 @@ export async function getUserIds(groupId: number): Promise<number[]> {
   };
 
   const { Items: result } = await client.query(query).promise();
-  logger.info(
-    `got userIds for groupId response: ${JSON.stringify(result, null, 2)}`,
-  );
 
   if (result) {
     return result.map((item) => item['userId']);
