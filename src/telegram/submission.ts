@@ -6,7 +6,7 @@ import { getSummary } from '../services/summary';
 import { bot } from './bot';
 
 const WORDLE_SHARE_PATTERN =
-  /Wordle\s(?<wordleNumber>\d+)\s(?<numGuesses>\d)\/6\s+(?<guesses>(?:(?:\u{1F7E9}|\u{1F7E8}|\u{2B1C}|\u{2B1B}){5}\s?){1,6})$/u;
+  /Wordle\s(?<wordleNumber>\d+)\s(?<numGuesses>[1-6])\/6\s+(?<guesses>(?:(?:\u{1F7E9}|\u{1F7E8}|\u{2B1C}|\u{2B1B}){5}\s?){1,6})$/u;
 
 export async function handler(context: Context, message: PrivateMessage) {
   // remove unicode variations
@@ -21,11 +21,16 @@ export async function handler(context: Context, message: PrivateMessage) {
 
   const submission = submissionSchema.parse(match.groups);
 
+  let displayName = `${message.from.first_name}`;
+  if (message.from.last_name) {
+    displayName += ` ${message.from.last_name[0]}.`;
+  }
+
   logger.info('saving submission');
   await models.submission.put({
     ...submission,
     userId: message.from.id,
-    userName: message.from.first_name,
+    userName: displayName,
   });
 
   context.reply(`Thank you for your submission ${message.from.first_name}

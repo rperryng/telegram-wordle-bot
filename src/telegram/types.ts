@@ -6,7 +6,7 @@ export const fromSchema = z.object({
   id: z.number(),
   is_bot: z.boolean(),
   first_name: z.string(),
-  last_name: z.string(),
+  last_name: z.optional(z.string()),
   username: z.optional(z.string()),
   language_code: z.optional(z.string()),
 });
