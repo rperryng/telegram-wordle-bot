@@ -30,18 +30,20 @@ export async function put(groupUser: GroupUser): Promise<void> {
 }
 
 export async function getGroupIds(userId: number): Promise<number[]> {
-  const params: DocumentClient.GetItemInput = {
+  const params: DocumentClient.QueryInput = {
     TableName: config.groupsTable,
-    Key: {
-      userId,
+    IndexName: 'UserIdIndex',
+    KeyConditionExpression: 'userId = :userId',
+    ExpressionAttributeValues: {
+      ':userId': userId,
     },
   };
 
-  const { Item } = await client.get(params).promise();
-  logger.info(`getGroupIds returned: ${JSON.stringify(Item, null, 2)}`);
+  const { Items: result } = await client.query(params).promise();
+  logger.info(`getGroupIds returned: ${JSON.stringify(result, null, 2)}`);
 
-  if (Item) {
-    throw new Error('TODO: parse input for getGroupIds');
+  if (result) {
+    return result.map((item) => groupUserSchema.parse(item).groupId);
   } else {
     return [];
   }

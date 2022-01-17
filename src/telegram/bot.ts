@@ -25,7 +25,6 @@ bot.command('leaderboard', () => {
   logger.info('[leaderboard] command received');
 });
 bot.on('text', (context: Context) => {
-  logger.info('on [text]');
   const message = privateMessageSchema.parse(context.message);
 
   if (message.text === 'fetch') {

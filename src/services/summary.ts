@@ -94,6 +94,8 @@ function discreetSummary(submissions: Submission[]): string {
   const wordleNumber = submissions[0].wordleNumber;
 
   return `
+All submissions received.
+
 Wordle ${wordleNumber}
 
 ${submissions
