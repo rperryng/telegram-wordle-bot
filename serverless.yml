@@ -65,6 +65,8 @@ resources:
             AttributeType: N
           - AttributeName: UserName
             AttributeType: S
+          - AttributeName: Guesses
+            AttributeType: S
         KeySchema:
           - AttributeName: userId
             KeyType: HASH
