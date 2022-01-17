@@ -10,13 +10,8 @@ export async function handler(context: Context) {
   const userIds = await models.groupUsers.getUserIds(message.chat.id);
 
   if (!userIds) {
-    return context.reply(
-      `No registered users found for chat ${message.from.username}`,
-    );
+    return context.reply(`No registered users found for ${message.chat.title}`);
   }
 
-  const submissions = await models.submission.batchGet(
-    userIds,
-    config.wordleNumber,
-  );
+  return await models.submission.batchGet(userIds, config.wordleNumber);
 }

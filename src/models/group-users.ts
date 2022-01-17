@@ -49,27 +49,23 @@ export async function getGroupIds(userId: number): Promise<number[] | null> {
   }
 }
 
-export async function getUserIds(groupId: number): Promise<number[] | null> {
-  const params: DocumentClient.BatchGetItemInput = {
-    RequestItems: {
-      [config.groupsTable]: {
-        Keys: [
-          {
-            // groupId: {
-            //   N: groupId,
-            // }
-            groupId,
-          },
-        ],
-      },
+export async function getUserIds(groupId: number): Promise<number[]> {
+  const query: DocumentClient.QueryInput = {
+    TableName: config.groupsTable,
+    KeyConditionExpression: 'groupId = :hashKey',
+    ExpressionAttributeValues: {
+      ':hashKey': groupId,
     },
   };
 
-  logger.info(`fetching userIds for groupId: ${groupId}`);
-  const response = await client.batchGet(params).promise();
+  const { Items: result } = await client.query(query).promise();
   logger.info(
-    `got userIds for groupId response: ${JSON.stringify(response, null, 2)}`,
+    `got userIds for groupId response: ${JSON.stringify(result, null, 2)}`,
   );
 
-  return [];
+  if (result) {
+    return result.map((item) => item['userId']);
+  } else {
+    return [];
+  }
 }
