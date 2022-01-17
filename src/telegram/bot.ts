@@ -6,6 +6,7 @@ import { handler as handleSubmission } from './submission';
 import { handler as handleFetch } from './fetch';
 import { handler as handleToday } from './today';
 import { handler as handleRegister } from './register';
+import { handler as handleUnregister } from './unregister';
 
 const config = {
   botToken: env('TELEGRAM_BOT_KEY'),
@@ -20,6 +21,7 @@ bot.use((context: Context, next) => {
 
 bot.start((context) => context.reply('Hello'));
 bot.command('register', handleRegister);
+bot.command('unregister', handleUnregister);
 bot.command('today', handleToday);
 bot.command('leaderboard', () => {
   logger.info('[leaderboard] command received');

@@ -17,6 +17,6 @@ export async function handler(context: Context) {
     userId: message.from.id,
   });
   return context.reply(
-    `Okay!  I will wait for ${message.from.username} to send me Wordle scores before posting summaries in ${message.chat.title}`,
+    `Okay!  I will wait for ${message.from.username} to send me Wordle scores before posting full summaries in ${message.chat.title}`,
   );
 }

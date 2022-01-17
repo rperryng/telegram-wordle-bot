@@ -12,7 +12,6 @@ const groupUserSchema = z.object({
   groupId: z.number(),
   userId: z.number(),
 });
-
 export type GroupUser = z.infer<typeof groupUserSchema>;
 
 export async function put(groupUser: GroupUser): Promise<void> {
@@ -24,6 +23,19 @@ export async function put(groupUser: GroupUser): Promise<void> {
 
   try {
     await client.put(params).promise();
+  } catch (error) {
+    logger.error(error);
+  }
+}
+
+export async function deleteItem(groupUser: GroupUser): Promise<void> {
+  const params: DocumentClient.DeleteItemInput = {
+    TableName: config.groupsTable,
+    Key: groupUser,
+  };
+
+  try {
+    await client.delete(params).promise();
   } catch (error) {
     logger.error(error);
   }
