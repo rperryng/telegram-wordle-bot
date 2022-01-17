@@ -29,7 +29,7 @@ export async function put(groupUser: GroupUser): Promise<void> {
   }
 }
 
-export async function getGroupIds(userId: number): Promise<number[] | null> {
+export async function getGroupIds(userId: number): Promise<number[]> {
   const params: DocumentClient.GetItemInput = {
     TableName: config.groupsTable,
     Key: {
@@ -38,12 +38,12 @@ export async function getGroupIds(userId: number): Promise<number[] | null> {
   };
 
   const { Item } = await client.get(params).promise();
+  logger.info(`getGroupIds returned: ${JSON.stringify(Item, null, 2)}`);
 
   if (Item) {
-    logger.info(`getGroupIds returned: ${JSON.stringify(Item, null, 2)}`);
     throw new Error('TODO: parse input for getGroupIds');
   } else {
-    return null;
+    return [];
   }
 }
 
