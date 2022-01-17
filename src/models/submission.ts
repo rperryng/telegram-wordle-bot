@@ -25,11 +25,7 @@ export async function put(submission: Submission): Promise<void> {
     },
   };
 
-  try {
-    await client.put(params).promise();
-  } catch (error) {
-    logger.error(error);
-  }
+  await client.put(params).promise();
 }
 
 export async function get(
@@ -88,9 +84,5 @@ export async function deleteItem(item: {
     Key: item,
   };
 
-  try {
-    await client.delete(params).promise();
-  } catch (error) {
-    logger.error(error);
-  }
+  await client.delete(params).promise();
 }

@@ -17,11 +17,11 @@ export async function handler(context: Context) {
   const groupMessage = groupMessageSchema.parse(context.message);
   logger.info('parsed group message');
 
-  await models.groupUsers.put({
-    groupId: message.chat.id,
+  await models.chatUsers.put({
+    chatId: message.chat.id,
     userId: message.from.id,
   });
   return context.reply(
-    `Okay!  I will wait for ${message.from.username} to send me Wordle scores before posting full summaries in ${message.chat.title}`,
+    `Okay!  I will wait for ${message.from.first_name} to send me Wordle scores before posting full summaries in ${message.chat.title}`,
   );
 }

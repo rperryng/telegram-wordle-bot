@@ -15,12 +15,20 @@ const config = {
 
 export const bot = new Telegraf(config.botToken);
 
-// bot.use((context: Context, next) => {
-//   logger.info(`bot received: ${JSON.stringify(context.message, null, 2)}`);
-//   return next();
-// });
+bot.start((context) =>
+  context.reply(
+    `
+Hello!
 
-bot.start((context) => context.reply('Hello'));
+To submit your wordle solution, paste the "Share" output in a private chat with me.
+
+After inviting me to a group chat, type \`/register\`
+Once everyone in that chat who has \`registered\`, I will paste a summary of everyone's submissions for that wordle day.
+
+You can type \`/today\` in a group chat to get a (discreet) summary for registered users who have submitted their solution already.
+`.trim(),
+  ),
+);
 bot.command('delete', handleDelete);
 bot.command('register', handleRegister);
 bot.command('unregister', handleUnregister);

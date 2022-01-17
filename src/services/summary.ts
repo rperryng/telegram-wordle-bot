@@ -20,7 +20,7 @@ export async function getSummary(chatId: number): Promise<Summary> {
   const { title: chatTitle } = groupGetChatSchema.parse(chat);
   logger.info(`checking summary for ${chatTitle}...`);
 
-  const userIdsForChat = await models.groupUsers.getUserIds(chatId);
+  const userIdsForChat = await models.chatUsers.getUserIds(chatId);
   logger.info(`${chatTitle} has userIds: ${userIdsForChat.join('\n')}`);
 
   if (userIdsForChat.length === 0) {

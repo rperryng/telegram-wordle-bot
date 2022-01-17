@@ -7,7 +7,7 @@ export const fromSchema = z.object({
   is_bot: z.boolean(),
   first_name: z.string(),
   last_name: z.string(),
-  username: z.string(),
+  username: z.optional(z.string()),
   language_code: z.optional(z.string()),
 });
 
@@ -30,7 +30,6 @@ export const groupMessageSchema = z.object({
     id: z.number(),
     title: z.string(),
     type: z.literal('group'),
-    all_members_are_administrators: z.boolean(),
   }),
   date: z.number(),
   text: z.string(),

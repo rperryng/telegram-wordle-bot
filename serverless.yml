@@ -6,7 +6,7 @@ frameworkVersion: '2'
 
 custom:
   submissionsTable: 'submissions-table-${self:provider.stage}'
-  groupsTable: 'groups-table-${self:provider.stage}'
+  chatsTable: 'chats-table-${self:provider.stage}'
 
 plugins:
   - serverless-dynamodb-local
@@ -25,22 +25,28 @@ provider:
           Action:
             - dynamodb:Query
             - dynamodb:Scan
+            - dynamodb:BatchGetItem
             - dynamodb:GetItem
             - dynamodb:PutItem
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource:
             - Fn::GetAtt: [ SubmissionsTable, Arn ]
+            - Fn::GetAtt: [ ChatsTable, Arn ]
+            - Fn::Join:
+              - "/"
+              -
+                - Fn::GetAtt: [ ChatsTable, Arn ]
+                - "index/*"
   environment:
     AWS_SUBMISSIONS_TABLE: ${self:custom.submissionsTable}
-    AWS_GROUPS_TABLE: ${self:custom.groupsTable}
+    AWS_CHATS_TABLE: ${self:custom.chatsTable}
 
 functions:
   api:
-    handler: dist/app.handler
+    handler: dist/index.handler
     environment:
       TELEGRAM_BOT_KEY: ${ssm:/telegram_bot_key, env:TELEGRAM_BOT_KEY}
-      BASE_URL: ${ssm:/base_path_serverless_telegram_wordle_bot, env:WEBHOOK_URL}
     events:
       - http:
           path: /
@@ -63,30 +69,26 @@ resources:
             AttributeType: N
           - AttributeName: wordleNumber
             AttributeType: N
-          - AttributeName: UserName
-            AttributeType: S
-          - AttributeName: Guesses
-            AttributeType: S
         KeySchema:
           - AttributeName: userId
             KeyType: HASH
           - AttributeName: wordleNumber
             KeyType: RANGE
 
-    GroupsTable:
+    ChatsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:custom.groupsTable}
+        TableName: ${self:custom.chatsTable}
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         AttributeDefinitions:
-          - AttributeName: groupId
+          - AttributeName: chatId
             AttributeType: N
           - AttributeName: userId
             AttributeType: N
         KeySchema:
-          - AttributeName: groupId
+          - AttributeName: chatId
             KeyType: HASH
           - AttributeName: userId
             KeyType: RANGE
@@ -95,7 +97,7 @@ resources:
             KeySchema:
               - AttributeName: userId
                 KeyType: HASH
-              - AttributeName: groupId
+              - AttributeName: chatId
                 KeyType: RANGE
             Projection:
               ProjectionType: 'ALL'

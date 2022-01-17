@@ -12,12 +12,12 @@ export async function handler(context: Context) {
   // Shouldn't have to do this
   const groupMessage = groupMessageSchema.parse(context.message);
 
-  models.groupUsers.deleteItem({
-    groupId: message.chat.id,
+  models.chatUsers.deleteItem({
+    chatId: message.chat.id,
     userId: message.from.id,
   });
 
   return context.reply(
-    `Okay!  I won't wait for ${message.from.username} to submit before posting a summary in ${groupMessage.chat.title}`,
+    `Okay!  I won't wait for ${message.from.first_name} to submit before posting a summary in ${groupMessage.chat.title}`,
   );
 }

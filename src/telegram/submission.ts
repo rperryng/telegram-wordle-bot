@@ -25,27 +25,38 @@ export async function handler(context: Context, message: PrivateMessage) {
   await models.submission.put({
     ...submission,
     userId: message.from.id,
-    userName: message.from.username,
+    userName: message.from.first_name,
   });
 
-  context.reply(`Thank you for your submission ${message.from.username}
+  context.reply(`Thank you for your submission ${message.from.first_name}
 Worldle #${submission.wordleNumber}
 Number of guesses: ${submission.numGuesses}
 guesses:
 ${submission.guesses}`);
 
-  const chatIds = await models.groupUsers.getGroupIds(message.from.id);
+  const chatIds = await models.chatUsers.getChatIds(message.from.id);
 
   await Promise.all(
     chatIds.map(async (chatId) => {
       const summary = await getSummary(chatId);
       switch (summary.type) {
-        case 'full':
-        case 'discreet': {
+        case 'full': {
           const msg = `All submissions received!\n\n${summary.message}`;
-          await bot.telegram.sendMessage(chatId, msg);
+
+          try {
+            await bot.telegram.sendMessage(chatId, msg);
+          } catch (e) {
+            if (e instanceof Error) {
+              if (e.message.includes('Forbidden')) {
+                logger.error(`Bot was kicked from chat ${chatId}`);
+              } else {
+                throw e;
+              }
+            }
+          }
           break;
         }
+        case 'discreet':
         case 'needs_setup':
         // do nothing
       }

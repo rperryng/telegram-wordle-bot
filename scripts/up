@@ -20,4 +20,4 @@ yarn build:local
 WEBHOOK_URL="$(getNgrokUrl)/dev"
 source "${SCRIPT_DIR}/telegram-set-webhook-url"
 
-yarn sls offline
+yarn serverless offline
