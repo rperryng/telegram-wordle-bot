@@ -52,3 +52,8 @@ export const submissionSchema = z.object({
   guesses: z.string(),
 });
 export type Submission = z.infer<typeof submissionSchema>;
+
+export const groupGetChatSchema = z.object({
+  type: z.literal('group'),
+  title: z.string(),
+});

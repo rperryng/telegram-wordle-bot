@@ -5,6 +5,7 @@ import { env } from '../env';
 import { handler as handleSubmission } from './submission';
 import { handler as handleFetch } from './fetch';
 import { handler as handleToday } from './today';
+import { handler as handleRegister } from './register';
 
 const config = {
   botToken: env('TELEGRAM_BOT_KEY'),
@@ -18,8 +19,9 @@ bot.use((context: Context, next) => {
 });
 
 bot.start((context) => context.reply('Hello'));
+bot.command('register', handleRegister);
 bot.command('today', handleToday);
-bot.command('leaderboard', (context: Context) => {
+bot.command('leaderboard', () => {
   logger.info('[leaderboard] command received');
 });
 bot.on('text', (context: Context) => {

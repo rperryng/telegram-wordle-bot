@@ -35,3 +35,9 @@ Number of guesses: ${submission.numGuesses}
 guesses:
 ${submission.guesses}`);
 }
+
+function checkGroups(userId: number) {
+  logger.info('Checking if any group summaries are ready...');
+
+  const groupIds = models.groupUsers.getGroupIds(userId);
+}

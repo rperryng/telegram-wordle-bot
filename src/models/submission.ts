@@ -58,7 +58,6 @@ export async function batchGet(
   userIds: number[],
   wordleNumber: number,
 ): Promise<Submission[]> {
-  logger.info('batchGet');
   const params: DocumentClient.BatchGetItemInput = {
     RequestItems: {
       [config.submissionsTable]: {

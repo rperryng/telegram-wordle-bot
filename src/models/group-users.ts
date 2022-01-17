@@ -8,20 +8,18 @@ const config = {
   groupsTable: env('AWS_GROUPS_TABLE'),
 };
 
-const groupUsersSchema = z.object({
+const groupUserSchema = z.object({
   groupId: z.number(),
-  userIds: z.array(z.number()),
+  userId: z.number(),
 });
 
-export type GroupUsers = z.infer<typeof groupUsersSchema>;
+export type GroupUser = z.infer<typeof groupUserSchema>;
 
-export async function put(groupUsers: GroupUsers): Promise<void> {
-  groupUsers = groupUsersSchema.parse(groupUsers);
+export async function put(groupUser: GroupUser): Promise<void> {
+  groupUser = groupUserSchema.parse(groupUser);
   const params = {
     TableName: config.groupsTable,
-    Item: {
-      ...groupUsers,
-    },
+    Item: groupUser,
   };
 
   try {
