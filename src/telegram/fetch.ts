@@ -1,18 +1,14 @@
 import { PrivateMessage } from './types';
 import * as models from '../models';
 import { Context } from 'telegraf';
-import { env } from '../env';
-
-export const config = {
-  wordleNumber: parseInt(env('WORDLE_NUMBER', '210')),
-};
+import { current as currentWordleNumber } from '../wordle-number';
 
 export async function handler(
   context: Context,
   message: PrivateMessage,
 ): Promise<void> {
   const userId = message.from.id;
-  const { wordleNumber } = config;
+  const wordleNumber = currentWordleNumber();
 
   const submission = await models.submission.get(userId, wordleNumber);
 

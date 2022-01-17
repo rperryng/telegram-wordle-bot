@@ -1,9 +1,9 @@
-import { config } from '../telegram/fetch';
 import { bot } from '../telegram/bot';
 import * as models from '../models';
 import { logger } from '../logger';
 import { groupGetChatSchema } from '../telegram/types';
 import sortBy from 'lodash.sortby';
+import { current as currentWordleNumber } from '../wordle-number';
 
 type Submission = models.submission.Submission & {
   numGuesses: number;
@@ -16,6 +16,7 @@ export type Summary = {
 
 export async function getSummary(chatId: number): Promise<Summary> {
   const chat = await bot.telegram.getChat(chatId);
+  const wordleNumber = currentWordleNumber();
   const { title: chatTitle } = groupGetChatSchema.parse(chat);
   logger.info(`checking summary for ${chatTitle}...`);
 
@@ -31,13 +32,13 @@ export async function getSummary(chatId: number): Promise<Summary> {
 
   const submissions = await models.submission.batchGet(
     userIdsForChat,
-    config.wordleNumber,
+    wordleNumber,
   );
 
   if (submissions.length === 0) {
     return {
       type: 'needs_setup',
-      message: `${chatTitle} has no submissions`,
+      message: `${chatTitle} has no submissions for Wordle ${wordleNumber}`,
     };
   }
 
