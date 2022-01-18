@@ -72,14 +72,19 @@ function summary(submissions: Submission[], type: 'full' | 'discreet'): string {
 Wordle ${wordleNumber}
 
 ${submissions
-  .map((submission) =>
-    `
-${submission.numGuesses === topScore ? '👑' : ''}${submission.userName} - ${
-      submission.numGuesses
-    } guesses
+  .map((submission) => {
+    let emoji = '';
+    if (submission.numGuesses === topScore) {
+      emoji = '👑';
+    } else if (submission.numGuesses === 'X') {
+      emoji = '💩';
+    }
+
+    return `
+${emoji} ${submission.userName} - ${submission.numGuesses} guesses
 ${type === 'full' ? submission.guesses : ''}
-    `.trim(),
-  )
+    `.trim();
+  })
   .join('\n\n')}
 `.trim();
 }
