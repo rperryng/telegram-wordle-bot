@@ -5,8 +5,10 @@ import { groupGetChatSchema } from '../telegram/types';
 import sortBy from 'lodash.sortby';
 import { current as currentWordleNumber } from '../wordle-number';
 
+const SUCCESSFUL_GUESS_PATTERN = /\u{1F7E9}{5}/u;
+
 type Submission = models.submission.Submission & {
-  numGuesses: number;
+  numGuesses: string;
 };
 
 export type Summary = {
@@ -42,10 +44,16 @@ export async function getSummary(chatId: number): Promise<Summary> {
     };
   }
 
-  let modifiedSubmissions = submissions.map((s) => ({
-    ...s,
-    numGuesses: s.guesses.split('\n').length,
-  }));
+  let modifiedSubmissions = submissions.map((s) => {
+    const numGuesses = SUCCESSFUL_GUESS_PATTERN.test(s.guesses)
+      ? s.guesses.length.toString()
+      : 'X';
+
+    return {
+      ...s,
+      numGuesses,
+    };
+  });
   modifiedSubmissions = sortBy(modifiedSubmissions, (s) => s.numGuesses);
 
   const type =
@@ -58,19 +66,20 @@ export async function getSummary(chatId: number): Promise<Summary> {
 
 function summary(submissions: Submission[], type: 'full' | 'discreet'): string {
   const wordleNumber = submissions[0].wordleNumber;
+  const topScore = submissions[0].numGuesses.toString();
 
   return `
 Wordle ${wordleNumber}
 
 ${submissions
-  .map((submission, index) => {
-    return `
-${index === 0 ? '👑' : ''}${submission.userName} - ${
+  .map((submission, index) =>
+    `
+${submission.numGuesses === topScore ? '👑' : ''}${submission.userName} - ${
       submission.numGuesses
     } guesses
 ${type === 'full' ? submission.guesses : ''}
-  `.trim();
-  })
+    `.trim(),
+  )
   .join('\n\n')}
 `.trim();
 }
