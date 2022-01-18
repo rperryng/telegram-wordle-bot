@@ -48,20 +48,15 @@ export async function getSummary(chatId: number): Promise<Summary> {
   }));
   modifiedSubmissions = sortBy(modifiedSubmissions, (s) => s.numGuesses);
 
-  if (submissions.length === userIdsForChat.length) {
-    return {
-      type: 'full',
-      message: fullSummary(modifiedSubmissions),
-    };
-  } else {
-    return {
-      type: 'discreet',
-      message: discreetSummary(modifiedSubmissions),
-    };
-  }
+  const type =
+    submissions.length === userIdsForChat.length ? 'full' : 'discreet';
+  return {
+    type,
+    message: summary(modifiedSubmissions, type),
+  };
 }
 
-function fullSummary(submissions: Submission[]): string {
+function summary(submissions: Submission[], type: 'full' | 'discreet'): string {
   const wordleNumber = submissions[0].wordleNumber;
 
   return `
@@ -73,25 +68,9 @@ ${submissions
 ${index === 0 ? '👑' : ''}${submission.userName} - ${
       submission.numGuesses
     } guesses
-${submission.guesses}
+${type === 'full' ? submission.guesses : ''}
   `.trim();
   })
   .join('\n\n')}
-`.trim();
-}
-
-function discreetSummary(submissions: Submission[]): string {
-  const wordleNumber = submissions[0].wordleNumber;
-
-  return `
-Wordle ${wordleNumber}
-
-${submissions
-  .map((submission, index) => {
-    return `${index === 0 ? '👑' : ''}${submission.userName} - ${
-      submission.numGuesses
-    } guesses`.trim();
-  })
-  .join('\n')}
 `.trim();
 }

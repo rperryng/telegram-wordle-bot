@@ -6,7 +6,7 @@ import { getSummary } from '../services/summary';
 import { bot } from './bot';
 
 const WORDLE_SHARE_PATTERN =
-  /Wordle\s(?<wordleNumber>\d+)\s(?<numGuesses>[1-6])\/6\s+(?<guesses>(?:(?:\u{1F7E9}|\u{1F7E8}|\u{2B1C}|\u{2B1B}){5}\s?){1,6})$/u;
+  /Wordle\s(?<wordleNumber>\d+)\s(?<numGuesses>[1-6X])\/6\s+(?<guesses>(?:(?:\u{1F7E9}|\u{1F7E8}|\u{2B1C}|\u{2B1B}){5}\s?){1,6})$/u;
 
 export async function handler(context: Context, message: PrivateMessage) {
   // remove unicode variations
