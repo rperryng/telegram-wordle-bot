@@ -72,7 +72,7 @@ function summary(submissions: Submission[], type: 'full' | 'discreet'): string {
 Wordle ${wordleNumber}
 
 ${submissions
-  .map((submission, index) =>
+  .map((submission) =>
     `
 ${submission.numGuesses === topScore ? '👑' : ''}${submission.userName} - ${
       submission.numGuesses
