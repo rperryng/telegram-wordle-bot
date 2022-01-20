@@ -46,7 +46,7 @@ export async function getSummary(chatId: number): Promise<Summary> {
 
   let modifiedSubmissions = submissions.map((s) => {
     const numGuesses = SUCCESSFUL_GUESS_PATTERN.test(s.guesses)
-      ? s.guesses.length.toString()
+      ? s.guesses.split('\n').length.toString()
       : 'X';
 
     return {
