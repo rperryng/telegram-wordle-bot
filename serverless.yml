@@ -1,12 +1,15 @@
-org: rperryng
-app: telegram-wordle-bot
-service: telegram-wordle-bot
+org: ${env:SERVERLESS_ORG_NAME}
+service: ${env:SERVERLESS_SERVICE_NAME}
+app: ${env:SERVERLESS_SERVICE_NAME}
 
 frameworkVersion: '2'
 
 custom:
   submissionsTable: 'submissions-table-${self:provider.stage}'
   chatsTable: 'chats-table-${self:provider.stage}'
+  dynamodb:
+    stages:
+      - ${self:provider.stage}
 
 plugins:
   - serverless-dynamodb-local
@@ -46,7 +49,7 @@ functions:
   api:
     handler: dist/index.handler
     environment:
-      TELEGRAM_BOT_KEY: ${ssm:/telegram_bot_key, env:TELEGRAM_BOT_KEY}
+      TELEGRAM_BOT_KEY: ${env:TELEGRAM_BOT_KEY}
     events:
       - http:
           path: /
