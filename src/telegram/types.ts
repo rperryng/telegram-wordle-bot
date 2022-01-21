@@ -44,7 +44,7 @@ export type Message = z.infer<typeof messageSchema>;
 
 export const submissionSchema = z.object({
   wordleNumber: stringToNumber,
-  numGuesses: stringToNumber,
+  numGuesses: z.string(),
   guesses: z.string(),
 });
 export type Submission = z.infer<typeof submissionSchema>;
