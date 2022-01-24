@@ -1,6 +1,6 @@
-org: ${env:SERVERLESS_ORG_NAME}
-service: ${env:SERVERLESS_SERVICE_NAME}
-app: ${env:SERVERLESS_SERVICE_NAME}
+org: rperryng
+service: telegram-wordle-bot
+app: telegram-wordle-bot
 
 frameworkVersion: '2'
 
