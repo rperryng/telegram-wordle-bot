@@ -1,5 +1,4 @@
 import { Telegraf, Context } from 'telegraf';
-import { logger } from '../logger';
 import { messageSchema, privateMessageSchema } from './types';
 import { env } from '../env';
 import { handler as handleSubmission } from './submission';
@@ -8,6 +7,7 @@ import { handler as handleSummary } from './summary';
 import { handler as handleRegister } from './register';
 import { handler as handleUnregister } from './unregister';
 import { handler as handleDelete } from './delete';
+import { handler as handleLeaderboard } from './leaderboard';
 
 const config = {
   botToken: env('TELEGRAM_BOT_KEY'),
@@ -33,12 +33,12 @@ bot.command('delete', handleDelete);
 bot.command('register', handleRegister);
 bot.command('unregister', handleUnregister);
 bot.command('summary', handleSummary);
-bot.command('leaderboard', () => {
-  logger.info('[leaderboard] command received');
-});
-bot.command('today', async (context: Context) => {
+bot.command('leaderboard', handleLeaderboard);
+
+bot.command('today', (context: Context) => {
   return context.reply('/today is deprecated, please use /summary instead');
 });
+
 bot.on('text', (context: Context) => {
   let message = messageSchema.parse(context.message);
 

@@ -4,6 +4,9 @@ import { client } from '../dynamodb';
 import { z } from 'zod';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 
+const SUCCESSFUL_GUESS_PATTERN = /\u{1F7E9}{5}/u;
+const NUM_GUESSES_FOR_FAILURE = 7;
+
 const config = {
   submissionsTable: env('AWS_SUBMISSIONS_TABLE'),
 };
@@ -15,6 +18,22 @@ const submissionSchema = z.object({
   guesses: z.string(),
 });
 export type Submission = z.infer<typeof submissionSchema>;
+
+const augmentedSubmissionSchema = submissionSchema.extend({
+  numGuesses: z.number(),
+});
+export type AugmentedSubmission = z.infer<typeof augmentedSubmissionSchema>;
+
+function map(submission: Submission): AugmentedSubmission {
+  const numGuesses = SUCCESSFUL_GUESS_PATTERN.test(submission.guesses)
+    ? submission.guesses.split('\n').length
+    : NUM_GUESSES_FOR_FAILURE;
+
+  return {
+    ...submission,
+    numGuesses,
+  };
+}
 
 export async function put(submission: Submission): Promise<void> {
   submission = submissionSchema.parse(submission);
@@ -53,7 +72,7 @@ export async function get(
 export async function batchGet(
   userIds: number[],
   wordleNumber: number,
-): Promise<Submission[]> {
+): Promise<AugmentedSubmission[]> {
   const params: DocumentClient.BatchGetItemInput = {
     RequestItems: {
       [config.submissionsTable]: {
@@ -69,7 +88,27 @@ export async function batchGet(
 
   if (result) {
     const items = result[config.submissionsTable];
-    return items.map((item) => submissionSchema.parse(item));
+    return items.map((item) => map(submissionSchema.parse(item)));
+  } else {
+    return [];
+  }
+}
+
+export async function scanUserId(
+  userId: number,
+): Promise<AugmentedSubmission[]> {
+  const query: DocumentClient.QueryInput = {
+    TableName: config.submissionsTable,
+    KeyConditionExpression: 'userId = :hashKey',
+    ExpressionAttributeValues: {
+      ':hashKey': userId,
+    },
+  };
+
+  const { Items: result } = await client.query(query).promise();
+
+  if (result) {
+    return result.map((item) => map(submissionSchema.parse(item)));
   } else {
     return [];
   }
