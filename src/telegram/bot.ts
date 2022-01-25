@@ -22,10 +22,10 @@ Hello!
 
 To submit your wordle solution, paste the "Share" output in a private chat with me.
 
-After inviting me to a group chat, type \`/register\`
-Once everyone in that chat who has \`registered\`, I will paste a summary of everyone's submissions for that wordle day.
+After inviting me to a group chat, type /register
+Once everyone in that chat who has registered, I will paste a summary of everyone's submissions for that wordle day.
 
-You can type \`/summary\` in a group chat to get a (discreet) summary for registered users who have submitted their solution already.
+You can type /summary in a group chat to get a (discreet) summary for registered users who have submitted their solution already.
 `.trim(),
   ),
 );
