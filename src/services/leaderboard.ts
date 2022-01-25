@@ -47,14 +47,16 @@ function summary(chatTitle: string, userSummaries: UserSummary[]): string {
   return `
 ${chatTitle} Wordle Leaderboard:
 
-${userSummaries.map((summary, index) => {
-  let prefix = `${index + 1}.`;
-  if (summary.average === topScore) {
-    prefix += ' 👑 ';
-  }
+${userSummaries
+  .map((summary, index) => {
+    let prefix = `${index + 1}.`;
+    if (summary.average === topScore) {
+      prefix += ' 👑 ';
+    }
 
-  return `${prefix} ${summary.userName} - (${summary.average} avg)`;
-})}
+    return `${prefix} ${summary.userName} - (${summary.average} avg)`;
+  })
+  .join('\n')}
   `.trim();
 }
 
