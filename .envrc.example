@@ -1,1 +1,4 @@
-TELEGRAM_BOT_KEY=
+#!/usr/bin/env bash
+
+export TELEGRAM_BOT_KEY=
+export SERVERLESS_STAGE=
