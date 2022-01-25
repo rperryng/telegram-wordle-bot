@@ -10,6 +10,7 @@ const userSummarySchema = z.object({
   userId: z.number(),
   userName: z.string(),
   average: z.number(),
+  averageFormatted: z.string(),
 });
 type UserSummary = z.infer<typeof userSummarySchema>;
 
@@ -65,14 +66,13 @@ async function getUserSummary(userId: number): Promise<UserSummary | null> {
 
   const userName = submissions[submissions.length - 1].userName;
   const total = _.sumBy(submissions, (s) => s.numGuesses);
-  const average = total / submissions.length;
-  logger.info(
-    `${userName} calculating average: ${total} / ${submissions.length} = ${average}`,
-  );
+  const averageFormatted = (total / submissions.length).toFixed(2);
+  const average = Number.parseFloat(averageFormatted);
 
   return {
     userId,
     userName,
     average,
+    averageFormatted,
   };
 }
