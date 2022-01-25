@@ -4,13 +4,13 @@ import { getSummary } from '../services/summary';
 import { logger } from '../logger';
 
 export async function handler(context: Context) {
-  logger.info('[today] parsing message');
+  logger.info('[summary] parsing message');
   const message = messageSchema.parse(context.message);
-  logger.info('[today] parsed message');
+  logger.info('[summary] parsed message');
 
   if (message.chat.type === 'private') {
     return context.reply(
-      '/today is not supported in private chats.  Try pasting your wordle summary instead.',
+      '/summary is not supported in private chats.  Try pasting your wordle summary instead.',
     );
   }
 
