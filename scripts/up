@@ -17,7 +17,7 @@ function getNgrokUrl() {
 
 rm -rf "${SCRIPT_DIR}/../dist"
 yarn build:local
-WEBHOOK_URL="$(getNgrokUrl)/dev"
+WEBHOOK_URL="$(getNgrokUrl)/${SERVERLESS_STAGE}"
 source "${SCRIPT_DIR}/telegram-set-webhook-url"
 
 yarn serverless offline
