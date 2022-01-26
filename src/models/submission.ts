@@ -94,14 +94,17 @@ export async function batchGet(
   }
 }
 
-export async function scanUserId(
+export async function scanUserIdAndWordleNumber(
   userId: number,
+  wordleNumber: number,
 ): Promise<AugmentedSubmission[]> {
   const query: DocumentClient.QueryInput = {
     TableName: config.submissionsTable,
-    KeyConditionExpression: 'userId = :hashKey',
+    KeyConditionExpression:
+      'userId = :hashKey AND wordleNumber >= :wordleNumber',
     ExpressionAttributeValues: {
       ':hashKey': userId,
+      ':wordleNumber': wordleNumber,
     },
   };
 

@@ -5,6 +5,7 @@ import * as models from '../models';
 import * as _ from 'lodash';
 import { z } from 'zod';
 import { removeNulls } from '../utils';
+import { current as currentWordleNumber } from '../wordle-number';
 
 const userSummarySchema = z.object({
   userId: z.number(),
@@ -14,7 +15,16 @@ const userSummarySchema = z.object({
 });
 type UserSummary = z.infer<typeof userSummarySchema>;
 
-export async function get(chatId: number): Promise<string> {
+export enum Timeframe {
+  MONTH = 'Month',
+  WEEK = 'Week',
+  ALL_TIME = 'All Time',
+}
+
+export async function get(
+  chatId: number,
+  timeframe: Timeframe,
+): Promise<string> {
   const chat = await bot.telegram.getChat(chatId);
   const { title: chatTitle } = groupGetChatSchema.parse(chat);
 
@@ -26,7 +36,10 @@ export async function get(chatId: number): Promise<string> {
     return 'No users have registered in this chat';
   }
 
-  const userSummaries = await Promise.all(userIdsForChat.map(getUserSummary));
+  const n = wordleNumber(timeframe);
+  const userSummaries = await Promise.all(
+    userIdsForChat.map((id) => getUserSummary(id, n)),
+  );
   const sortedUserSummaries = _.sortBy(
     removeNulls(userSummaries),
     (s) => s.average,
@@ -36,16 +49,18 @@ export async function get(chatId: number): Promise<string> {
     return 'No submissions exist for users in this chat';
   }
 
-  logger.info(`summaries: ${JSON.stringify(sortedUserSummaries, null, 2)}`);
-
-  return summary(chatTitle, sortedUserSummaries);
+  return summary(chatTitle, timeframe, sortedUserSummaries);
 }
 
-function summary(chatTitle: string, userSummaries: UserSummary[]): string {
+function summary(
+  chatTitle: string,
+  timeframe: Timeframe,
+  userSummaries: UserSummary[],
+): string {
   const topScore = userSummaries[0].average;
 
   return `
-${chatTitle} Wordle Leaderboard:
+${chatTitle} Wordle Leaderboard (${timeframe}):
 
 ${userSummaries
   .map((summary, index) => {
@@ -60,8 +75,14 @@ ${userSummaries
   `.trim();
 }
 
-async function getUserSummary(userId: number): Promise<UserSummary | null> {
-  const submissions = await models.submission.scanUserId(userId);
+async function getUserSummary(
+  userId: number,
+  wordleNumber: number,
+): Promise<UserSummary | null> {
+  const submissions = await models.submission.scanUserIdAndWordleNumber(
+    userId,
+    wordleNumber,
+  );
   if (submissions.length === 0) {
     return null;
   }
@@ -77,4 +98,16 @@ async function getUserSummary(userId: number): Promise<UserSummary | null> {
     average,
     averageFormatted,
   };
+}
+
+export function wordleNumber(timeframe: Timeframe): number {
+  const n = currentWordleNumber();
+  switch (timeframe) {
+    case Timeframe.ALL_TIME:
+      return 0;
+    case Timeframe.MONTH:
+      return n - 30;
+    case Timeframe.WEEK:
+      return n - 7;
+  }
 }
