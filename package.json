@@ -11,9 +11,8 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "build:local": "yarn tsc",
-    "build:production": "yarn ncc build src/index.ts",
-    "deploy": "yarn clean && yarn build:production && yarn serverless deploy",
+    "build": "yarn tsc",
+    "deploy": "yarn clean && yarn build && yarn serverless deploy",
     "clean": "rm -rf dist",
     "lint": "yarn eslint --fix ."
   },

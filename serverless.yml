@@ -47,12 +47,12 @@ provider:
 
 functions:
   api:
-    handler: dist/index.handler
+    handler: dist/handlers/telegram.handler
     environment:
       TELEGRAM_BOT_KEY: ${env:TELEGRAM_BOT_KEY}
     events:
       - http:
-          path: /
+          path: /telegram
           method: ANY
       - http:
           path: /{proxy+}
