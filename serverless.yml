@@ -46,7 +46,7 @@ provider:
     AWS_CHATS_TABLE: ${self:custom.chatsTable}
 
 functions:
-  api:
+  telegram:
     handler: dist/handlers/telegram.handler
     environment:
       TELEGRAM_BOT_KEY: ${env:TELEGRAM_BOT_KEY}
@@ -54,9 +54,16 @@ functions:
       - http:
           path: /telegram
           method: ANY
+
+  slack:
+    handler: dist/handlers/slack.handler
+    environment:
+      SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
+      SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
+    events:
       - http:
-          path: /{proxy+}
-          method: ANY
+          path: /slack/events
+          method: post
 
 resources:
   Resources:
