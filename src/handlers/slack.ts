@@ -1,3 +1,5 @@
+import './app';
+
 import { receiver } from '../slack/bot';
 import { AwsHandler } from '@slack/bolt/dist/receivers/AwsLambdaReceiver';
 import { logger } from '../logger';
