@@ -12,8 +12,18 @@ app.use(koaLogger((str, args) => logger.info(str, args)));
 app.use(koaBodyParser());
 
 app.use(async (context) => {
-  await bot.handleUpdate(context.request.body);
-  context.status = 200;
+  try {
+    await bot.handleUpdate(context.request.body);
+    context.status = 200;
+  } catch (e) {
+    if (e instanceof Error && e.message.includes('Forbidden')) {
+      // Bot was banned / kicked from chat.
+      context.status = 200;
+      return logger.error(e);
+    }
+
+    throw e;
+  }
 });
 
 export const handler = serverless(app);
