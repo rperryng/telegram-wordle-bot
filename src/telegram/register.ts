@@ -1,7 +1,8 @@
 import { Context } from 'telegraf';
 import { logger } from '../logger';
 import * as models from '../models';
-import { groupMessageSchema, messageSchema } from './types';
+import { messageSchema } from './types';
+import { getUsername } from './userUtils';
 
 export async function handler(context: Context) {
   logger.info('parsing register');
@@ -12,16 +13,13 @@ export async function handler(context: Context) {
     return context.reply('/register is not supported in private chats');
   }
 
-  // Shouldn't have to do this
-  logger.info('parsing group message');
-  const groupMessage = groupMessageSchema.parse(context.message);
-  logger.info('parsed group message');
+  const userName = await getUsername(message.chat.id, message.from.id);
 
   await models.chatUsers.put({
     chatId: message.chat.id,
     userId: message.from.id,
   });
   return context.reply(
-    `Okay!  I will wait for ${message.from.first_name} to send me Wordle scores before posting full summaries in ${message.chat.title}`,
+    `Okay!  I will wait for ${userName} (and everyone else who has called /register ) to send me Wordle scores before posting full summaries in ${message.chat.title}`,
   );
 }

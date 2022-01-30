@@ -12,8 +12,7 @@ const config = {
 };
 
 const submissionSchema = z.object({
-  userId: z.number(),
-  userName: z.string(),
+  userId: z.string(),
   wordleNumber: z.number(),
   guesses: z.string(),
 });
@@ -48,7 +47,7 @@ export async function put(submission: Submission): Promise<void> {
 }
 
 export async function get(
-  userId: number,
+  userId: string,
   wordleNumber: number,
 ): Promise<Submission | null> {
   const params: DocumentClient.GetItemInput = {
@@ -70,7 +69,7 @@ export async function get(
 }
 
 export async function batchGet(
-  userIds: number[],
+  userIds: string[],
   wordleNumber: number,
 ): Promise<AugmentedSubmission[]> {
   const params: DocumentClient.BatchGetItemInput = {
@@ -95,7 +94,7 @@ export async function batchGet(
 }
 
 export async function scanUserIdAndWordleNumber(
-  userId: number,
+  userId: string,
   wordleNumber: number,
 ): Promise<AugmentedSubmission[]> {
   const query: DocumentClient.QueryInput = {
@@ -118,7 +117,7 @@ export async function scanUserIdAndWordleNumber(
 }
 
 export async function deleteItem(item: {
-  userId: number;
+  userId: string;
   wordleNumber: number;
 }): Promise<void> {
   const params: DocumentClient.DeleteItemInput = {

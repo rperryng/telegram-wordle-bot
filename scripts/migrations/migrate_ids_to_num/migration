@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+# Migrate userIds and chatIds from Number to String types
+# Telegram uses numeric types but Slack uses string types (with actual
+# characters in them)
+
+# Example invocation:
+# ./scripts/migrations/migrate_ids_to_num/migration \
+#   chats-table-dev-local \
+#   chats-table-dev-local-restore \
+#   submissions-table-dev-local \
+#   submissions-table-dev-local-restore
+
 SRC_CHATS_TABLE=$1
 DEST_CHATS_TABLE=$2
 SRC_SUBMISSIONS_TABLE=$3

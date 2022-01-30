@@ -9,8 +9,8 @@ const config = {
 };
 
 const chatUserSchema = z.object({
-  chatId: z.number(),
-  userId: z.number(),
+  chatId: z.string(),
+  userId: z.string(),
 });
 export type ChatUser = z.infer<typeof chatUserSchema>;
 
@@ -33,7 +33,7 @@ export async function deleteItem(chatUser: ChatUser): Promise<void> {
   await client.delete(params).promise();
 }
 
-export async function getChatIds(userId: number): Promise<number[]> {
+export async function getChatIds(userId: string): Promise<string[]> {
   const params: DocumentClient.QueryInput = {
     TableName: config.chatsTable,
     IndexName: 'UserIdIndex',
@@ -53,7 +53,7 @@ export async function getChatIds(userId: number): Promise<number[]> {
   }
 }
 
-export async function getUserIds(chatId: number): Promise<number[]> {
+export async function getUserIds(chatId: string): Promise<string[]> {
   const query: DocumentClient.QueryInput = {
     TableName: config.chatsTable,
     KeyConditionExpression: 'chatId = :hashKey',

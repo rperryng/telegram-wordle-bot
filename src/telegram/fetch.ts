@@ -17,7 +17,7 @@ export async function handler(
       `No submission found for Wordle #${wordleNumber} ${message.from.first_name}`,
     );
   } else {
-    context.reply(`Worldle #${submission.wordleNumber}
+    context.reply(`wordle #${submission.wordleNumber}
 Number of guesses: ${submission.guesses.split('\n').length}
 guesses:
 ${submission.guesses}`);

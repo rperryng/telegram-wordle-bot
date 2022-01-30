@@ -5,28 +5,25 @@ import { Context } from 'telegraf';
 import { getSummary } from '../services/summary';
 import { bot } from './bot';
 import { parse } from '../wordle/pattern';
+import { getUsername } from './userUtils';
 
 export async function handler(context: Context, message: PrivateMessage) {
   const submission = parse(message.text);
-
   if (!submission) {
     return context.reply('This board is not valid');
   }
 
-  let displayName = `${message.from.first_name}`;
-  if (message.from.last_name) {
-    displayName += ` ${message.from.last_name[0]}.`;
-  }
+  const userId = message.from.id;
+  const userName = await getUsername(message.chat.id, userId);
 
   logger.info('saving submission');
   await models.submission.put({
     ...submission,
     userId: message.from.id,
-    userName: displayName,
   });
 
-  context.reply(`Thank you for your submission ${message.from.first_name}
-Worldle #${submission.wordleNumber}
+  context.reply(`Thank you for your submission ${userName}
+Wordle #${submission.wordleNumber}
 Number of guesses: ${submission.numGuesses}
 guesses:
 ${submission.guesses}`);
@@ -50,7 +47,7 @@ ${submission.guesses}`);
   );
 }
 
-async function trySendMessage(chatId: number, msg: string) {
+async function trySendMessage(chatId: string, msg: string) {
   try {
     await bot.telegram.sendMessage(chatId, msg);
   } catch (e) {

@@ -1,7 +1,8 @@
 import { z } from 'zod';
+import { numberToString } from '../utils';
 
 export const fromSchema = z.object({
-  id: z.number(),
+  id: numberToString,
   is_bot: z.boolean(),
   first_name: z.string(),
   last_name: z.optional(z.string()),
@@ -13,7 +14,7 @@ export const privateMessageSchema = z.object({
   message_id: z.number(),
   from: fromSchema,
   chat: z.object({
-    id: z.number(),
+    id: numberToString,
     type: z.literal('private'),
   }),
   date: z.number(),
@@ -25,7 +26,7 @@ export const groupMessageSchema = z.object({
   message_id: z.number(),
   from: fromSchema,
   chat: z.object({
-    id: z.number(),
+    id: numberToString,
     title: z.string(),
     type: z.literal('group'),
   }),

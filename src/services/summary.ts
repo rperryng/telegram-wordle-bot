@@ -4,9 +4,11 @@ import { logger } from '../logger';
 import { groupGetChatSchema } from '../telegram/types';
 import sortBy from 'lodash.sortby';
 import { current as currentWordleNumber } from '../wordle/number';
+import { getUsername } from '../telegram/userUtils';
 
 type Submission = models.submission.Submission & {
   numGuesses: string;
+  userName: string;
 };
 
 export type Summary = {
@@ -14,7 +16,7 @@ export type Summary = {
   message: string;
 };
 
-export async function getSummary(chatId: number): Promise<Summary> {
+export async function getSummary(chatId: string): Promise<Summary> {
   const chat = await bot.telegram.getChat(chatId);
   const wordleNumber = currentWordleNumber();
   const { title: chatTitle } = groupGetChatSchema.parse(chat);
@@ -41,14 +43,17 @@ export async function getSummary(chatId: number): Promise<Summary> {
     };
   }
 
-  let modifiedSubmissions = submissions.map((s) => {
-    const numGuesses = s.numGuesses === 7 ? 'X' : s.numGuesses.toString();
+  let modifiedSubmissions = await Promise.all(
+    submissions.map(async (s) => {
+      const numGuesses = s.numGuesses === 7 ? 'X' : s.numGuesses.toString();
 
-    return {
-      ...s,
-      numGuesses,
-    };
-  });
+      return {
+        ...s,
+        userName: await getUsername(chatId, s.userId),
+        numGuesses,
+      };
+    }),
+  );
   modifiedSubmissions = sortBy(modifiedSubmissions, (s) => s.numGuesses);
 
   const type =

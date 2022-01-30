@@ -1,6 +1,7 @@
 import { Context } from 'telegraf';
 import * as models from '../models';
-import { groupMessageSchema, messageSchema } from './types';
+import { messageSchema } from './types';
+import { getUsername } from './userUtils';
 
 export async function handler(context: Context) {
   const message = messageSchema.parse(context.message);
@@ -9,15 +10,14 @@ export async function handler(context: Context) {
     return context.reply('/unregister is not supported in private chats');
   }
 
-  // Shouldn't have to do this
-  const groupMessage = groupMessageSchema.parse(context.message);
-
-  models.chatUsers.deleteItem({
+  await models.chatUsers.deleteItem({
     chatId: message.chat.id,
     userId: message.from.id,
   });
 
+  const userName = await getUsername(message.chat.id, message.from.id);
+
   return context.reply(
-    `Okay!  I won't wait for ${message.from.first_name} to submit before posting a summary in ${groupMessage.chat.title}`,
+    `Okay!  I won't wait for ${userName} to submit their solution anymore before posting a summary in ${message.chat.title}`,
   );
 }

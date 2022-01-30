@@ -6,9 +6,10 @@ import _ from 'lodash';
 import { z } from 'zod';
 import { removeNulls } from '../utils';
 import { current as currentWordleNumber } from '../wordle/number';
+import { getUsername } from '../telegram/userUtils';
 
 const userSummarySchema = z.object({
-  userId: z.number(),
+  userId: z.string(),
   userName: z.string(),
   average: z.number(),
   averageFormatted: z.string(),
@@ -22,7 +23,7 @@ export enum Timeframe {
 }
 
 export async function get(
-  chatId: number,
+  chatId: string,
   timeframe: Timeframe,
 ): Promise<string> {
   const chat = await bot.telegram.getChat(chatId);
@@ -38,7 +39,7 @@ export async function get(
 
   const n = wordleNumber(timeframe);
   const userSummaries = await Promise.all(
-    userIdsForChat.map((id) => getUserSummary(id, n)),
+    userIdsForChat.map((userId) => getUserSummary(chatId, userId, n)),
   );
   const sortedUserSummaries = _.sortBy(
     removeNulls(userSummaries),
@@ -76,18 +77,19 @@ ${userSummaries
 }
 
 async function getUserSummary(
-  userId: number,
+  chatId: string,
+  userId: string,
   wordleNumber: number,
 ): Promise<UserSummary | null> {
-  const submissions = await models.submission.scanUserIdAndWordleNumber(
-    userId,
-    wordleNumber,
-  );
+  const [submissions, userName] = await Promise.all([
+    models.submission.scanUserIdAndWordleNumber(userId, wordleNumber),
+    getUsername(chatId, userId),
+  ]);
+
   if (submissions.length === 0) {
     return null;
   }
 
-  const userName = submissions[submissions.length - 1].userName;
   const total = _.sumBy(submissions, (s) => s.numGuesses);
   const averageFormatted = (total / submissions.length).toFixed(2);
   const average = Number.parseFloat(averageFormatted);
