@@ -32,31 +32,30 @@ ${submission.guesses}`);
 
   await Promise.all(
     chatIds.map(async (chatId) => {
-      const summary = await getSummary(chatId);
-      switch (summary.type) {
-        case 'full': {
-          const msg = `All submissions received!\n\n${summary.message}`;
-          await trySendMessage(chatId, msg);
-          break;
+      try {
+        await postSummary(chatId);
+      } catch (e) {
+        if (e instanceof Error && e.message.includes('Forbidden')) {
+          // TODO: Remove this chat so we don't try again in the future
+          return logger.error(`Bot was kicked from chat ${chatId}`);
         }
-        case 'discreet':
-        case 'needs_setup':
-        // do nothing
+
+        throw e;
       }
     }),
   );
 }
 
-async function trySendMessage(chatId: string, msg: string) {
-  try {
-    await bot.telegram.sendMessage(chatId, msg);
-  } catch (e) {
-    if (e instanceof Error) {
-      if (e.message.includes('Forbidden')) {
-        logger.error(`Bot was kicked from chat ${chatId}`);
-      } else {
-        throw e;
-      }
+async function postSummary(chatId: string): Promise<void> {
+  const summary = await getSummary(chatId);
+  switch (summary.type) {
+    case 'full': {
+      const msg = `All submissions received!\n\n${summary.message}`;
+      await bot.telegram.sendMessage(chatId, msg);
+      break;
     }
+    case 'discreet':
+    case 'needs_setup':
+    // do nothing
   }
 }
