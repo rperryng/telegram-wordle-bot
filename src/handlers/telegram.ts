@@ -1,4 +1,4 @@
-import './app';
+import './init';
 
 import Koa from 'koa';
 import koaLogger from 'koa-logger';
