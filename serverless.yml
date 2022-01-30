@@ -1,15 +1,13 @@
 org: rperryng
-service: telegram-wordle-bot
-app: telegram-wordle-bot
+service: wordle-bot-${self:custom.platform}
+app: wordle-bot-${self:custom.platform}
 
 frameworkVersion: '2'
 
 custom:
-  submissionsTable: 'submissions-table-${self:provider.stage}'
-  chatsTable: 'chats-table-${self:provider.stage}'
-  dynamodb:
-    stages:
-      - ${self:provider.stage}
+  platform: 'telegram'
+  submissionsTable: 'wordle-bot-${self:custom.platform}-submissions-table-${self:provider.stage}'
+  chatsTable: 'wordle-bot-${self:custom.platform}-chats-table-${self:provider.stage}'
 
 plugins:
   - serverless-dynamodb-local
@@ -55,6 +53,7 @@ functions:
           path: /telegram
           method: ANY
 
+  # TODO: move to its own serverless config
   slack:
     handler: dist/handlers/slack.handler
     environment:

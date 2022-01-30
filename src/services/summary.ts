@@ -2,7 +2,7 @@ import { bot } from '../telegram/bot';
 import * as models from '../models';
 import { logger } from '../logger';
 import { groupGetChatSchema } from '../telegram/types';
-import sortBy from 'lodash.sortby';
+import { sortBy } from 'lodash';
 import { current as currentWordleNumber } from '../wordle/number';
 import { getUsername } from '../telegram/userUtils';
 

@@ -20,6 +20,6 @@ export async function handler(context: Context) {
     userId: message.from.id,
   });
   return context.reply(
-    `Okay!  I will wait for ${userName} (and everyone else who has called /register ) to send me Wordle scores before posting full summaries in ${message.chat.title}`,
+    `Okay!  I will wait for ${userName} (and everyone else who has called /register) to send me Wordle scores before posting full summaries in ${message.chat.title}`,
   );
 }

@@ -2,7 +2,7 @@ import { logger } from '../logger';
 import { bot } from '../telegram/bot';
 import { groupGetChatSchema } from '../telegram/types';
 import * as models from '../models';
-import _ from 'lodash';
+import { sortBy, sumBy } from 'lodash';
 import { z } from 'zod';
 import { removeNulls } from '../utils';
 import { current as currentWordleNumber } from '../wordle/number';
@@ -41,7 +41,7 @@ export async function get(
   const userSummaries = await Promise.all(
     userIdsForChat.map((userId) => getUserSummary(chatId, userId, n)),
   );
-  const sortedUserSummaries = _.sortBy(
+  const sortedUserSummaries = sortBy(
     removeNulls(userSummaries),
     (s) => s.average,
   );
@@ -90,7 +90,7 @@ async function getUserSummary(
     return null;
   }
 
-  const total = _.sumBy(submissions, (s) => s.numGuesses);
+  const total = sumBy(submissions, (s) => s.numGuesses);
   const averageFormatted = (total / submissions.length).toFixed(2);
   const average = Number.parseFloat(averageFormatted);
 
