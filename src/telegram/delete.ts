@@ -1,6 +1,6 @@
 import { Context } from 'telegraf';
 import { messageSchema, privateMessageSchema } from './types';
-import { current as currentWordleNumber } from '../wordle-number';
+import { current as currentWordleNumber } from '../wordle/number';
 import * as models from '../models';
 
 export async function handler(context: Context) {

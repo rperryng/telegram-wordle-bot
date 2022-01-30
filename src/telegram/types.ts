@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-const stringToNumber = z.preprocess((val) => parseInt(String(val)), z.number());
-
 export const fromSchema = z.object({
   id: z.number(),
   is_bot: z.boolean(),
@@ -41,13 +39,6 @@ export const messageSchema = z.union([
   groupMessageSchema,
 ]);
 export type Message = z.infer<typeof messageSchema>;
-
-export const submissionSchema = z.object({
-  wordleNumber: stringToNumber,
-  numGuesses: z.string(),
-  guesses: z.string(),
-});
-export type Submission = z.infer<typeof submissionSchema>;
 
 export const groupGetChatSchema = z.object({
   type: z.literal('group'),

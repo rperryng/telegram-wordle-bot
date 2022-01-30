@@ -1,4 +1,5 @@
 import { App, AwsLambdaReceiver } from '@slack/bolt';
+import { handler as messageHandler } from './messageHandler';
 import { env } from '../env';
 
 const config = {
@@ -15,3 +16,5 @@ export const bot = new App({
   receiver,
   processBeforeResponse: true,
 });
+
+bot.message(messageHandler);

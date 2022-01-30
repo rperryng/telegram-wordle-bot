@@ -2,10 +2,10 @@ import { logger } from '../logger';
 import { bot } from '../telegram/bot';
 import { groupGetChatSchema } from '../telegram/types';
 import * as models from '../models';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { z } from 'zod';
 import { removeNulls } from '../utils';
-import { current as currentWordleNumber } from '../wordle-number';
+import { current as currentWordleNumber } from '../wordle/number';
 
 const userSummarySchema = z.object({
   userId: z.number(),

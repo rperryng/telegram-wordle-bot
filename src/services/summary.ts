@@ -3,7 +3,7 @@ import * as models from '../models';
 import { logger } from '../logger';
 import { groupGetChatSchema } from '../telegram/types';
 import sortBy from 'lodash.sortby';
-import { current as currentWordleNumber } from '../wordle-number';
+import { current as currentWordleNumber } from '../wordle/number';
 
 type Submission = models.submission.Submission & {
   numGuesses: string;
