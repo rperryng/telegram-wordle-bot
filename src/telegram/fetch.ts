@@ -1,7 +1,7 @@
-import { PrivateMessage } from './types';
-import * as models from '../models';
 import { Context } from 'telegraf';
+import * as models from '../models';
 import { current as currentWordleNumber } from '../wordle/number';
+import { PrivateMessage } from './types';
 
 export async function handler(
   context: Context,

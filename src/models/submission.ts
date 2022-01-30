@@ -1,8 +1,8 @@
+import { z } from 'zod';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { env } from '../env';
 import { logger } from '../logger';
 import { client } from '../dynamodb';
-import { z } from 'zod';
-import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 
 const SUCCESSFUL_GUESS_PATTERN = /\u{1F7E9}{5}/u;
 const NUM_GUESSES_FOR_FAILURE = 7;

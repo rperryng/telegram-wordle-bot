@@ -3,9 +3,9 @@ import './app';
 import Koa from 'koa';
 import koaLogger from 'koa-logger';
 import koaBodyParser from 'koa-bodyparser';
+import serverless from 'serverless-http';
 import { logger } from '../logger';
 import { bot } from '../telegram';
-import serverless from 'serverless-http';
 
 export const app = new Koa();
 app.use(koaLogger((str, args) => logger.info(str, args)));

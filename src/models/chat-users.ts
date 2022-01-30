@@ -1,7 +1,7 @@
-import { logger } from '../logger';
-import { client } from '../dynamodb';
 import { z } from 'zod';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import { logger } from '../logger';
+import { client } from '../dynamodb';
 import { env } from '../env';
 
 const config = {

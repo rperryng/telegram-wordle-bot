@@ -1,7 +1,7 @@
 import './app';
 
-import { receiver } from '../slack/bot';
 import { AwsHandler } from '@slack/bolt/dist/receivers/AwsLambdaReceiver';
+import { receiver } from '../slack/bot';
 import { logger } from '../logger';
 
 export const handler: AwsHandler = async (event, context, callback) => {

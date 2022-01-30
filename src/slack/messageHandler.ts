@@ -1,7 +1,7 @@
 import { SlackEventMiddlewareArgs } from '@slack/bolt';
 import { logger } from '../logger';
-import { simpleMessageSchema } from './types';
 import { parse } from '../wordle/pattern';
+import { simpleMessageSchema } from './types';
 
 export async function handler({
   message: rawMessage,

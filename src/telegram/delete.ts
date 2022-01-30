@@ -1,7 +1,7 @@
 import { Context } from 'telegraf';
-import { messageSchema, privateMessageSchema } from './types';
 import { current as currentWordleNumber } from '../wordle/number';
 import * as models from '../models';
+import { messageSchema, privateMessageSchema } from './types';
 
 export async function handler(context: Context) {
   let message = messageSchema.parse(context.message);

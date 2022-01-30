@@ -9,6 +9,12 @@ module.exports = {
     'plugin:import/typescript',
   ],
   rules: {
+    'import/order': [
+      'error',
+      {
+        'newlines-between': 'never',
+      },
+    ],
     'object-curly-spacing': ['error', 'always'],
     'comma-dangle': ['error', 'always-multiline'],
     'no-console': ['error'],
@@ -22,6 +28,6 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
-    quotes: ['error', 'single'],
+    quotes: ['error', 'single', { avoidEscape: true }],
   },
 };

@@ -1,6 +1,6 @@
 import { Telegraf, Context } from 'telegraf';
-import { messageSchema, privateMessageSchema } from './types';
 import { env } from '../env';
+import { messageSchema, privateMessageSchema } from './types';
 import { handler as handleSubmission } from './submission';
 import { handler as handleFetch } from './fetch';
 import { handler as handleSummary } from './summary';

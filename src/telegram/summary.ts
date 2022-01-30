@@ -1,7 +1,7 @@
 import { Context } from 'telegraf';
-import { messageSchema } from './types';
 import { getSummary } from '../services/summary';
 import { logger } from '../logger';
+import { messageSchema } from './types';
 
 export async function handler(context: Context) {
   logger.info('[summary] parsing message');

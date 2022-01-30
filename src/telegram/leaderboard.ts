@@ -1,7 +1,7 @@
 import { Context } from 'telegraf';
-import { messageSchema } from './types';
 import { logger } from '../logger';
 import { get as getLeaderboard, Timeframe } from '../services/leaderboard';
+import { messageSchema } from './types';
 
 const leaderboardTimeframe =
   /\/leaderboard\s*(?<timeframe>week|month|all\s())?/;

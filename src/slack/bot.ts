@@ -1,6 +1,6 @@
 import { App, AwsLambdaReceiver } from '@slack/bolt';
-import { handler as messageHandler } from './messageHandler';
 import { env } from '../env';
+import { handler as messageHandler } from './messageHandler';
 
 const config = {
   token: env('SLACK_BOT_TOKEN'),
