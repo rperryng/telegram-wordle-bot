@@ -25,6 +25,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
           SERVERLESS_STAGE: ${{ secrets.SERVERLESS_STAGE }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_SIGNING_SECRET: ${{ secrets.SLACK_SIGNING_SECRET }}
           TELEGRAM_BOT_KEY: ${{ secrets.TELEGRAM_BOT_KEY }}
         run: |
           echo "::add-mask::${{ secrets.SERVERLESS_URL_HOST }}" 
