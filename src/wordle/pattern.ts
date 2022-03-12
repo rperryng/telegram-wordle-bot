@@ -9,7 +9,7 @@ export const submissionSchema = z.object({
 export type Submission = z.infer<typeof submissionSchema>;
 
 export const WORDLE_SHARE_PATTERN =
-  /Wordle\s(?<wordleNumber>\d+)\s(?<numGuesses>[1-6X])\/6\s+(?<guesses>(?:(?:\u{1F7E9}|\u{1F7E8}|\u{2B1C}|\u{2B1B}){5}\s?){1,6})$/u;
+  /Wordle\s(?<wordleNumber>\d+)\s(?<numGuesses>[1-6X])\/6\*?\s+(?<guesses>(?:(?:\u{1F7E9}|\u{1F7E8}|\u{2B1C}|\u{2B1B}){5}\s?){1,6})$/u;
 
 export function parse(text: string): Submission | null {
   const sanitizedText = text.replace(/\u{FE0F}/gu, '');
