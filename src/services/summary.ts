@@ -1,4 +1,4 @@
-import { sortBy } from 'lodash';
+import { partition, sortBy, chain } from 'lodash';
 import { bot } from '../telegram/bot';
 import * as models from '../models';
 import { logger } from '../logger';
@@ -54,7 +54,12 @@ export async function getSummary(chatId: string): Promise<Summary> {
       };
     }),
   );
-  modifiedSubmissions = sortBy(modifiedSubmissions, (s) => s.numGuesses);
+
+  // Sort by hardMode, then numGuesses
+  modifiedSubmissions = chain(modifiedSubmissions)
+      .partition((s) => s.hardMode)
+      .value()
+      .flatMap((summaries) => sortBy(summaries, (s) => s.numGuesses))
 
   const type =
     submissions.length === userIdsForChat.length ? 'full' : 'discreet';
@@ -79,9 +84,15 @@ ${submissions
     } else if (submission.numGuesses === 'X') {
       prefix += ' 💩 ';
     }
+    const hardModeToken = submission.hardMode ? '*' : '';
+
+    let displayName = submission.userName;
+    if (!submission.hardMode) {
+      displayName += ' 👶';
+    }
 
     return `
-${prefix} ${submission.userName} - ${submission.numGuesses} guesses
+${prefix} ${displayName} - ${submission.numGuesses}${hardModeToken} guesses
 ${type === 'full' ? submission.guesses : ''}
     `.trim();
   })
