@@ -15,6 +15,7 @@ const submissionSchema = z.object({
   userId: z.string(),
   wordleNumber: z.number(),
   guesses: z.string(),
+  hardMode: z.boolean().default(false),
 });
 export type Submission = z.infer<typeof submissionSchema>;
 
